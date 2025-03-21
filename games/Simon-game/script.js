@@ -1,6 +1,7 @@
+let flag =1;
 document.addEventListener("pointerdown", function (event) {
     console.log("Key pressed:", event.key);
-    startProgram();
+    if(flag){startProgram();flag=0;}
 });
 document.addEventListener("keydown", function (event) {
     console.log("Key pressed:", event.key);
