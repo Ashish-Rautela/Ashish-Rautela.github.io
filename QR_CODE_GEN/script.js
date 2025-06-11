@@ -39,26 +39,7 @@ async function form_to_backend(event) {
                         mode: 'cors'
                     });
                     
-                    if (!imageResponse.ok) {
-                        throw new Error('Failed to fetch image');
-                    }
-                    
-                    const blob = await imageResponse.blob();
-                    const blobUrl = URL.createObjectURL(blob);
-                    
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = `qr-code-${Date.now()}.png`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    
-                    setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
-                } catch (error) {
-                    console.error("Download error:", error);
-                    
                     window.open(imageUrl, '_blank');
-                }
             });
 
         } else {
