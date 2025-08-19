@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Wordel/static/css/main.4cf4c25b.css",
-    "main.js": "/Wordel/static/js/main.238b8eca.js",
-    "static/js/453.85a5c221.chunk.js": "/Wordel/static/js/453.85a5c221.chunk.js",
-    "index.html": "/Wordel/index.html",
-    "main.4cf4c25b.css.map": "/Wordel/static/css/main.4cf4c25b.css.map",
-    "main.238b8eca.js.map": "/Wordel/static/js/main.238b8eca.js.map",
-    "453.85a5c221.chunk.js.map": "/Wordel/static/js/453.85a5c221.chunk.js.map"
+    "main.css": "/wordel/static/css/main.4cf4c25b.css",
+    "main.js": "/wordel/static/js/main.5c7bf150.js",
+    "static/js/453.85a5c221.chunk.js": "/wordel/static/js/453.85a5c221.chunk.js",
+    "index.html": "/wordel/index.html",
+    "main.4cf4c25b.css.map": "/wordel/static/css/main.4cf4c25b.css.map",
+    "main.5c7bf150.js.map": "/wordel/static/js/main.5c7bf150.js.map",
+    "453.85a5c221.chunk.js.map": "/wordel/static/js/453.85a5c221.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4cf4c25b.css",
-    "static/js/main.238b8eca.js"
+    "static/js/main.5c7bf150.js"
   ]
 }
