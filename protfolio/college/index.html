@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning — PESE 300 Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .section {
+            background: white;
+            margin: 40px 0;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            color: #2d3748;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .date-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .class-entry {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .class-entry:hover {
+            background: #e9ecef;
+            transform: translateX(10px);
+        }
+
+        .class-title {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .learning-points {
+            color: #4a5568;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .learning-points p {
+            margin-bottom: 15px;
+        }
+
+        .learning-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .learning-points li {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .learning-points li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .swoc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .swoc-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swoc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .strengths::before {
+            background: #48bb78;
+        }
+
+        .weaknesses::before {
+            background: #ed8936;
+        }
+
+        .opportunities::before {
+            background: #4299e1;
+        }
+
+        .challenges::before {
+            background: #e53e3e;
+        }
+
+        .swoc-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .strengths .card-title {
+            color: #48bb78;
+        }
+
+        .weaknesses .card-title {
+            color: #ed8936;
+        }
+
+        .opportunities .card-title {
+            color: #4299e1;
+        }
+
+        .challenges .card-title {
+            color: #e53e3e;
+        }
+
+        .takeaway-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 1.2rem;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .takeaway-box strong {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .case-study {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .case-study h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .superpower-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            border-radius: 20px;
+        }
+
+        .video-section {
+            background: white;
+            border: 2px solid #e9ecef;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .video-container {
+            margin-top: 30px;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+
+        .video-placeholder {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            padding: 60px 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            color: #4a5568;
+        }
+
+        .video-placeholder h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .video-placeholder p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 30px 25px;
+                margin: 25px 0;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .swoc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .floating-elements {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.05);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-circle:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        .floating-circle:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 25%;
+            left: 20%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(180deg); 
+                opacity: 0.6;
+            }
+        }
+
+        .highlight-text {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Learning — PESE 300 Journey</h1>
+            <p>Personal & Employability Skills Enhancement - My Learning Experience</p>
+        </header>
+
+        <section class="section">
+            <h2 class="section-title">My PESE 300 Learning Journey</h2>
+            
+            <div class="date-header">📅 June 15, 2025 - Tuesday</div>
+            <div class="class-entry">
+                <h3 class="class-title">Foundations of Professional Communication</h3>
+                <div class="learning-points">
+                    <p>PESE 300 is designed to strengthen our <span class="highlight-text">employability skills through hands-on practical methodologies</span>. These encompass technical knowledge, practical hard skills, and the essential soft skills that distinguish exceptional candidates in competitive job markets.</p>
+                    
+                    <p>Essential learnings from this foundational session:</p>
+                    <ul>
+                        <li>Technical expertise must be complemented by effective presentation and communication abilities</li>
+                        <li>Admitting knowledge gaps is acceptable; avoiding problem-solving discussions is not</li>
+                        <li>Cultivating analytical thinking by questioning "why" embodies the engineering mindset</li>
+                        <li>Building a professional portfolio (GitHub, projects) enables recruiters to evaluate your practical capabilities</li>
+                        <li>Developing a growth mindset is crucial for continuous professional development</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="class-entry">
+                <h3 class="class-title">Practical Session: Self-Introduction</h3>
+                <div class="learning-points">
+                    <p>During the practical session where we introduced ourselves, I learned something powerful: <strong>never underestimate yourself</strong></p>
+                    
+                    <ul>
+                        <li>Say "Good Morning" like you mean it</li>
+                        <li>Maintain strong eye contact</li>
+                        <li>Stand or sit with the right posture</li>
+                        <li>Speak clearly and confidently</li>
+                        <li>Give value to your name</li>
+                    </ul>
+                    
+                    <div class="takeaway-box">
+                        <strong>Key Takeaway:</strong>
+                        Your energy and attitude can truly put the spotlight on you
+                    </div>
+                </div>
+            </div>
+
+            <div class="date-header">📅 July 22, 2025 - Tuesday</div>
+            <div class="class-entry">
+                <h3 class="class-title">Introduction to SWOC Analysis</h3>
+                <div class="learning-points">
+                    <p>We delved into Unit 1: <strong>SWOC Analysis</strong> - a comprehensive framework for evaluating Strengths, Weaknesses, Opportunities, and Challenges in personal and professional contexts.</p>
+                    
+                    <p>Through an engaging rapid-fire activity where participants shared their strengths and weaknesses without hesitation, we discovered crucial insights:</p>
+                    <ul>
+                        <li><strong>Internal vs External Factors:</strong> Strengths and weaknesses are inherent personal attributes</li>
+                        <li><strong>Understanding Context:</strong> External support (like family) isn't a strength itself, but can help develop internal strengths</li>
+                        <li><strong>Opportunity Recognition:</strong> External positives include educational institutions, internship programs, and emerging technology platforms</li>
+                        <li><strong>Challenge Identification:</strong> External obstacles encompass rapidly evolving technology landscapes, environmental concerns, and economic fluctuations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="date-header">📅 June 29, 2025 - Tuesday</div>
+            <div class="class-entry">
+                <h3 class="class-title">SWOC Analysis: Jhumli Taliya Student Case Study</h3>
+                <div class="learning-points">
+                    <p>Our focus group conducted an in-depth analysis of the SWOC framework for a student from Jhumli Taliya aspiring to pursue B.Tech in AI/ML, exploring the unique challenges and opportunities faced by rural students in technology education:</p>
+                </div>
+                
+                <div class="swoc-grid">
+                    <div class="swoc-card strengths">
+                        <h3 class="card-title">Strengths</h3>
+                        <ul>
+                            <li><strong>Curiosity & Willingness to Learn:</strong> Village students have hunger to prove themselves - a superpower in tech</li>
+                            <li><strong>Strong Basics:</strong> Traditional setups often build solid math foundations - key for AI/ML</li>
+                            <li><strong>Adaptability:</strong> Used to learning with limited resources, flexible and resilient</li>
+                        </ul>
+                    </div>
+
+                    <div class="swoc-card weaknesses">
+                        <h3 class="card-title">Weaknesses</h3>
+                        <ul>
+                            <li><strong>Lack of Quality Resources:</strong> Fast internet, laptops, coding mentors not easily available</li>
+                            <li><strong>Limited Awareness:</strong> Many don't know what AI/ML is or career paths</li>
+                            <li><strong>English & Communication:</strong> Language becomes a barrier since most content is in English</li>
+                        </ul>
+                    </div>
+
+                    <div class="swoc-card opportunities">
+                        <h3 class="card-title">Opportunities</h3>
+                        <ul>
+                            <li><strong>Free Online Resources:</strong> Coursera, YouTube, Kaggle, ChatGPT</li>
+                            <li><strong>Government Scholarships:</strong> NSP, AICTE scholarships support rural students</li>
+                            <li><strong>Remote Work Culture:</strong> Work for top AI companies while living in your village</li>
+                        </ul>
+                    </div>
+
+                    <div class="swoc-card challenges">
+                        <h3 class="card-title">Challenges</h3>
+                        <ul>
+                            <li><strong>Financial Struggles:</strong> Courses, devices, travel for interviews cost money</li>
+                            <li><strong>Traditional Career Pressure:</strong> Family might push for B.Ed, govt job, or farming</li>
+                            <li><strong>Risk Perception:</strong> AI/ML still feels new and risky to families</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="date-header">📅 June 5, 2025 - Tuesday</div>
+            <div class="case-study">
+                <h3>Case Study: SmartBin - College Tech Innovation</h3>
+                <p>In-class assessment where our focus group analyzed the SmartBin project - an innovative smart dustbin system developed by second-year B.Tech students using IoT sensors, Wi-Fi connectivity, and mobile app notifications for efficient waste management.</p>
+                
+                <p><strong>Project Impact & Results:</strong></p>
+                <ul>
+                    <li>Achieved 80% sensor accuracy with minor connectivity issues in low Wi-Fi coverage areas</li>
+                    <li>Successfully reduced overflowing bins by 60%, significantly improving campus hygiene standards</li>
+                    <li>Cost-effective solution at ₹3,000 per SmartBin, attracting interest from local NGOs for community scaling</li>
+                    <li>Demonstrated practical application of IoT concepts learned in coursework</li>
+                </ul>
+            </div>
+
+            <div class="date-header">📅 June 12, 2025 - Tuesday</div>
+            <div class="superpower-section">
+                <h3 class="class-title">Discovering My Superpower</h3>
+                <p>We explored the concept of superpowers beyond extraordinary abilities or material wealth. Superpowers can be our personal qualities and strengths.</p>
+                
+                <div style="font-size: 1.3rem; margin-top: 25px; font-weight: 600;">
+                    🌟 My Superpower: Not giving up when it matters the most
+                </div>
+                
+                <p style="margin-top: 15px; font-size: 1.1rem;">
+                    When challenges seem insurmountable and others might quit, I find the strength to push through. This persistence has helped me tackle complex coding problems, complete difficult projects under tight deadlines, and support teammates during critical moments. It's not just about stubbornness - it's about having the mental resilience to find alternative solutions when the obvious path doesn't work. This quality has shaped my approach to learning, problem-solving, and personal growth throughout my engineering journey.
+                </p>
+            </div>
+        </section>
+
+        <section class="section video-section">
+            <h2 class="section-title">Learning Video</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px; color: #4a5568;">SWOC Analysis Learning Video</p>
+            
+            <!-- Video placeholder - replace with your YouTube video URL -->
+            
+            <!-- Uncomment and replace with your YouTube video URL -->
+          <div class="video-container">
+    <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/9fbZsBTd6bs" 
+        title="SWOC Analysis Learning Video" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+    </iframe>
+</div>
+
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth reveal animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Initialize sections for animation
+            const sections = document.querySelectorAll('.section, .class-entry');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(section);
+            });
+
+            // Enhanced hover effects
+            const cards = document.querySelectorAll('.swoc-card, .class-entry');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Parallax effect for floating elements
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const circles = document.querySelectorAll('.floating-circle');
+                
+                circles.forEach((circle, index) => {
+                    const speed = 0.3 + (index * 0.1);
+                    circle.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+
+            // Add click animation to takeaway box
+            const takeawayBox = document.querySelector('.takeaway-box');
+            if (takeawayBox) {
+                takeawayBox.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
