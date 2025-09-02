@@ -17,6 +17,7 @@
             color: #333;
             background: #f8f9fa;
             overflow-x: hidden;
+            font-size: 16px;
         }
 
         .container {
@@ -147,6 +148,8 @@
             margin: 10px 0;
             padding-left: 25px;
             position: relative;
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         .learning-points li::before {
@@ -314,22 +317,231 @@
             opacity: 0.8;
         }
 
-        @media (max-width: 768px) {
+        /* Tablet Styles */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 15px;
+            }
+            
             .header h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
+            }
+            
+            .header p {
+                font-size: 1.2rem;
             }
             
             .section {
-                padding: 30px 25px;
+                padding: 40px 30px;
+            }
+            
+            .swoc-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                margin-bottom: 40px;
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+                margin-bottom: 10px;
+            }
+            
+            .header p {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+            
+            .section {
+                padding: 25px 20px;
                 margin: 25px 0;
             }
             
             .section-title {
-                font-size: 2.2rem;
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            
+            .section-title::after {
+                width: 60px;
+                height: 3px;
             }
             
             .swoc-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .swoc-card {
+                padding: 25px 20px;
+            }
+            
+            .card-title {
+                font-size: 1.4rem;
+            }
+            
+            .class-entry {
+                padding: 25px 20px;
+            }
+            
+            .class-title {
+                font-size: 1.3rem;
+            }
+            
+            .learning-points {
+                font-size: 1rem;
+            }
+            
+            .date-header {
+                font-size: 0.9rem;
+                padding: 12px 20px;
+            }
+            
+            .takeaway-box {
+                padding: 25px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .takeaway-box strong {
+                font-size: 1.2rem;
+            }
+            
+            .case-study {
+                padding: 30px 20px;
+            }
+            
+            .case-study h3 {
+                font-size: 1.6rem;
+            }
+            
+            .superpower-section {
+                padding: 40px 20px;
+            }
+            
+            .floating-circle {
+                display: none;
+            }
+        }
+
+        /* Small Mobile Styles */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 0.9rem;
+            }
+            
+            .section {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .swoc-card {
+                padding: 20px 15px;
+            }
+            
+            .card-title {
+                font-size: 1.2rem;
+            }
+            
+            .class-entry {
+                padding: 20px 15px;
+            }
+            
+            .class-title {
+                font-size: 1.2rem;
+            }
+            
+            .learning-points {
+                font-size: 0.95rem;
+            }
+            
+            .learning-points li {
+                padding-left: 20px;
+            }
+            
+            .date-header {
+                font-size: 0.8rem;
+                padding: 10px 15px;
+            }
+            
+            .takeaway-box {
+                padding: 20px 15px;
+                font-size: 1rem;
+            }
+            
+            .case-study {
+                padding: 25px 15px;
+            }
+            
+            .case-study h3 {
+                font-size: 1.4rem;
+            }
+            
+            .superpower-section {
+                padding: 30px 15px;
+            }
+            
+            .video-placeholder {
+                padding: 40px 15px;
+            }
+            
+            .video-placeholder h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .header {
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                margin: 20px 0;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .swoc-card:hover,
+            .class-entry:hover,
+            .section:hover {
+                transform: none;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            }
+            
+            .swoc-card:active,
+            .class-entry:active {
+                transform: scale(0.98);
+            }
+        }
+
+        /* High DPI screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .section-title::after {
+                height: 3px;
             }
         }
 
@@ -552,9 +764,6 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>
     </iframe>
-</div>
-
-        </section>
     </div>
 
     <script>
@@ -585,14 +794,46 @@
 
             // Enhanced hover effects
             const cards = document.querySelectorAll('.swoc-card, .class-entry');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px) scale(1.02)';
+            
+            // Enhanced mobile touch handling
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Disable hover effects on mobile and use touch events
+                cards.forEach(card => {
+                    card.addEventListener('touchstart', function(e) {
+                        this.style.transform = 'translateY(-5px) scale(1.01)';
+                    });
+                    
+                    card.addEventListener('touchend', function(e) {
+                        setTimeout(() => {
+                            this.style.transform = 'translateY(0) scale(1)';
+                        }, 150);
+                    });
                 });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
+            } else {
+                // Desktop hover effects
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-8px) scale(1.02)';
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0) scale(1)';
+                    });
                 });
+            }
+
+            // Responsive handling for window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    // Reset transforms on resize
+                    cards.forEach(card => {
+                        card.style.transform = 'translateY(0) scale(1)';
+                    });
+                }, 250);
             });
 
             // Parallax effect for floating elements
