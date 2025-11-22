@@ -607,6 +607,14 @@ header .navbar ul li a:hover {
   font-family: "Nunito", sans-serif;
   font-weight: 700;
 }
+.education h5{
+  font-size: 2rem;
+  color: rgb(0, 107, 109);
+  text-align: left;
+  margin: 1rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+}
 
 /* education media queries starts*/
 @media screen and (max-width: 600px) {
