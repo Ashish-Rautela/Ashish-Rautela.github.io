@@ -1,0 +1,67 @@
+name: Deploy Site
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages branch to root
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Checkout main branch to pyqs
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          clean: false
+          path: pyqs
+
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build Astro Site
+        run: npm install && npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages
+          path: "./dist"
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Clear build artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: github-pages
