@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/piru/static/css/main.6f026858.css",
+    "main.js": "/piru/static/js/main.30554723.js",
+    "static/js/453.3da2606f.chunk.js": "/piru/static/js/453.3da2606f.chunk.js",
+    "index.html": "/piru/index.html",
+    "main.6f026858.css.map": "/piru/static/css/main.6f026858.css.map",
+    "main.30554723.js.map": "/piru/static/js/main.30554723.js.map",
+    "453.3da2606f.chunk.js.map": "/piru/static/js/453.3da2606f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6f026858.css",
+    "static/js/main.30554723.js"
+  ]
+}
