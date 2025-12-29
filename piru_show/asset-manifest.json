@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/piru_show/static/css/main.6f026858.css",
+    "main.js": "/piru_show/static/js/main.8d6f9efe.js",
+    "static/js/453.3da2606f.chunk.js": "/piru_show/static/js/453.3da2606f.chunk.js",
+    "index.html": "/piru_show/index.html",
+    "main.6f026858.css.map": "/piru_show/static/css/main.6f026858.css.map",
+    "main.8d6f9efe.js.map": "/piru_show/static/js/main.8d6f9efe.js.map",
+    "453.3da2606f.chunk.js.map": "/piru_show/static/js/453.3da2606f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6f026858.css",
+    "static/js/main.8d6f9efe.js"
+  ]
+}
