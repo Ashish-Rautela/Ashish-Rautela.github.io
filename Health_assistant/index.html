@@ -579,7 +579,7 @@
                         'Accept': 'application/json'
                     },
                     mode: 'cors',
-                    credentials: 'same-origin' // Include cookies if needed
+                    credentials: 'include' // Include cookies if needed
                 });
                 
                 console.log('Response status:', response.status);
@@ -624,7 +624,7 @@
                 
                 // Handle network errors
                 if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                    errorMessage = 'Could not connect to the server. Please make sure the backend is running on port 3000.';
+                    errorMessage = 'Could not connect to the server. Please try again';
                 }
                 
                 // Check if this is our custom error message
