@@ -573,13 +573,10 @@
                 const response = await fetch(API_ENDPOINTS.ANALYZE, {
                     method: 'POST',
                     body: formData,
-                    // Don't set Content-Type header when using FormData
-                    // The browser will set it automatically with the correct boundary
+                    mode: 'cors',
                     headers: {
                         'Accept': 'application/json'
                     },
-                    mode: 'cors',
-                    credentials: 'include' // Include cookies if needed
                 });
                 
                 console.log('Response status:', response.status);
@@ -624,7 +621,7 @@
                 
                 // Handle network errors
                 if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                    errorMessage = 'Could not connect to the server. Please try again';
+                    errorMessage = 'Could not connect to the backend service. Please try again.';
                 }
                 
                 // Check if this is our custom error message
@@ -937,7 +934,6 @@
                     const response = await fetch(API_ENDPOINTS.CHAT, {
                         method: 'POST',
                         body: JSON.stringify(payload),
-                        credentials: 'include',
                         mode: 'cors',
                         headers: {
                             'Content-Type': 'application/json',
