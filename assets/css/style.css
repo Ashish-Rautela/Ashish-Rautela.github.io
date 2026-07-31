@@ -927,3 +927,216 @@ section {
 .footer .credit a {
   color: var(--bg-lime);
 }
+
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE STYLES
+   ========================================== */
+
+@media (max-width: 768px) {
+  section {
+    padding: 5rem 5% 3.5rem 5%;
+  }
+
+  .heading {
+    font-size: 2.6rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .heading span {
+    padding: 0 0.6rem;
+  }
+
+  /* Hero Section Mobile */
+  .home {
+    padding-top: 8rem;
+    min-height: auto;
+  }
+
+  .hero-banner .hero-title {
+    font-size: 4.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-banner .hero-title .year-badge {
+    font-size: 1.8rem;
+    padding: 0.1rem 0.6rem;
+    vertical-align: middle;
+  }
+
+  .hero-center {
+    flex-direction: column-reverse;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-content h2 {
+    font-size: 2.6rem;
+  }
+
+  .hero-content p {
+    font-size: 1.7rem;
+  }
+
+  .hero-btn-container {
+    justify-content: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .hero-image {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  /* About Section Mobile */
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .about-content-col h3 {
+    font-size: 3.6rem;
+    text-align: center;
+  }
+
+  .about-bio {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-block h4 {
+    font-size: 2rem;
+  }
+
+  .lanyard-card {
+    width: 240px;
+  }
+
+  /* Skills Section Mobile */
+  .skills .row {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .skills .bar {
+    padding: 1.2rem 0.5rem;
+  }
+
+  .skills .bar img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .skills .bar span {
+    font-size: 1.3rem;
+  }
+
+  /* Education Section Mobile */
+  .education .box {
+    flex-direction: column;
+    padding: 1.8rem;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .education .box .image {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .education .box .content h3 {
+    font-size: 1.8rem;
+  }
+
+  /* Work / Projects Mobile */
+  .work .box-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .work .box img {
+    height: 180px;
+  }
+
+  .work .box .tag h3 {
+    font-size: 1.9rem;
+  }
+
+  /* Experience Timeline Mobile */
+  .experience .timeline::after {
+    left: 20px;
+  }
+
+  .experience .container {
+    width: 100%;
+    padding-left: 48px;
+    padding-right: 10px;
+    left: 0 !important;
+  }
+
+  .experience .container::after,
+  .experience .right::after {
+    left: 10px !important;
+  }
+
+  .experience .content {
+    padding: 1.5rem;
+  }
+
+  .experience .content .tag h2 {
+    font-size: 1.6rem;
+  }
+
+  /* Contact Mobile */
+  .contact .container {
+    padding: 2rem 1.5rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 1.4rem;
+    padding: 1.2rem 1.4rem 1.2rem 4rem;
+  }
+
+  /* Footer Mobile */
+  .footer {
+    padding: 3rem 5% 2rem 5%;
+  }
+
+  .footer .box-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-banner .hero-title {
+    font-size: 3.4rem;
+  }
+
+  .hero-content h2 {
+    font-size: 2.1rem;
+  }
+
+  .hero-btn-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-btn-container .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
