@@ -1,32 +1,32 @@
 [
   {
-    "name": "Decentrialized Online Voting System",
-    "desc": "A secure online voting platform built with blockchain technology, ensuring transparency and tamper-proof election results.",
-    "image": "voting",
+    "name": "EventFlow | Scalable Event Streaming & Processing System",
+    "desc": "An event-driven backend handling 10K+ events/min with atomic offset management (Redis INCR), fault-tolerant consumer pipeline with retry logic and DLQ, and real-time observability metrics.",
+    "image": "eventflow.png",
     "category": "mern",
     "links": {
-      "view": "#",
-      "code": "https://github.com/Ashish-Rautela/Decentralized_Online_Voting_System"
-    }
-  }, 
-  {
-    "name": "Shopping Website",
-    "desc": "A simple React-based shopping site where users can browse products, add items to cart, and view their selections.",
-    "image": "shopping",
-    "category": "react",
-    "links": {
-      "view": "https://ashish-rautela.github.io/react-app/",
-      "code": "#"
+      "view": "https://github.com/Ashish-Rautela/EventFlow",
+      "code": "https://github.com/Ashish-Rautela/EventFlow"
     }
   },
   {
-    "name": "QR Code Generator",
-    "desc": "A basic web app that lets users generate QR codes for any text or URL, making sharing information quick and easy.",
-    "image": "qr",
-    "category": "basicweb",
+    "name": "Finance Data Processing & Analytics Backend",
+    "desc": "High-performance finance backend with JWT authentication, RBAC, REST APIs for record filtering, and MongoDB aggregation pipelines for dashboard analytics deployed on AWS EC2.",
+    "image": "finance.png",
+    "category": "mern",
     "links": {
-      "view": "https://ashish-rautela.github.io/QR_CODE_GEN/",
-      "code": "https://github.com/Ashish-Rautela/Ashish-Rautela.github.io/tree/main/QR_CODE_GEN"
+      "view": "https://github.com/Ashish-Rautela/finance-dashboard-backend",
+      "code": "https://github.com/Ashish-Rautela/finance-dashboard-backend"
+    }
+  },
+  {
+    "name": "Decentralized Online Voting System",
+    "desc": "A secure online voting platform built with blockchain technology and smart contracts, ensuring data immutability, transparency, and role-based access control.",
+    "image": "voting.png",
+    "category": "mern",
+    "links": {
+      "view": "https://github.com/Ashish-Rautela/Decentralized_Online_Voting_System",
+      "code": "https://github.com/Ashish-Rautela/Decentralized_Online_Voting_System"
     }
   }
 ]

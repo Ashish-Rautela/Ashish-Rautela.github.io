@@ -6,9 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="keywords"
-    content="Ashish Rautela, portfolio, Ashish, full stack dev, personal portfolio lifecodes, portfolio design, portfolio website, personal portfolio" />
+    content="Ashish Rautela, portfolio, Ashish, full stack dev, backend developer, AWS, cloud engineer, personal portfolio" />
   <meta name="description"
-    content="Welcome to Ashish's Portfolio. Full-Stack Web Developer and Android App Developer" />
+    content="Welcome to Ashish Rautela's Portfolio. Full-Stack Web Developer & Backend Cloud Engineer" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
   <!-- Font Awesome -->
@@ -17,19 +23,14 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Favicon -->
   <link id='favicon' rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-png">
-  <title>Portfolio | Ashish Rautela</title>
+  <title>Portfolio '26 | Ashish Rautela</title>
 </head>
 
 <body oncontextmenu="return false">
 
-  <!-- pre loader -->
-  <!-- <div class="loader-container">
-  <img draggable="false" src="./assets/images/preloader.gif" alt="">
-</div> -->
-
   <!-- navbar starts -->
   <header>
-    <a href="/" class="logo"><i class="fab fa-node-js"></i> Ashish</a>
+    <a href="/" class="logo"><i class="fab fa-node-js"></i> ASHISH <span style="font-size: 1.4rem; color: var(--purple-dark); font-weight: 800;">'26</span></a>
 
     <div id="menu" class="fas fa-bars"></div>
     <nav class="navbar">
@@ -39,7 +40,7 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#education">Education</a></li>
         <li><a href="#work">Work</a></li>
-        <li><a href="#experience">Achievements</a></li>
+        <li><a href="#experience">Experience & Progress</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -51,91 +52,150 @@
   <section class="home" id="home">
     <div id="particles-js"></div>
 
-    <div class="content">
-      <h2>Hi There,<br /> I'm Ashish <span>Rautela</span></h2>
-      <p>i am into <span class="typing-text"></span></p>
-      <a href="#about" class="btn"><span>About Me</span>
-        <i class="fas fa-arrow-circle-down"></i>
-      </a>
-      <div class="socials">
-        <ul class="social-icons">
-          <li><a class="linkedin" aria-label="LinkedIn" href="https://www.linkedin.com/in/ashish-rautela-82322b33a/"
-              target="_blank"><i class="fab fa-linkedin"></i></a></li>
-          <li><a class="github" aria-label="GitHub" href="https://github.com/Ashish-Rautela" target="_blank"><i
-                class="fab fa-github"></i></a></li>
-          <li><a class="instagram" aria-label="Instagram" href="https://www.instagram.com/xashish_rautela?igsh=MWplYWhzNGJuMHVwaw=="><i
-                class="fab fa-instagram" target="_blank"></i></a></li>
-        </ul>
-      </div>
+    <!-- Floating Starburst Flowers Decorative -->
+    <svg class="starburst-flower large" style="top: 15%; left: 8%;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 0C52 25 75 48 100 50C75 52 52 75 50 100C48 75 25 52 0 50C25 48 48 25 50 0Z" fill="#9d72f3"/>
+      <path d="M50 15C55 35 65 45 85 50C65 55 55 65 50 85C45 65 35 55 15 50C35 45 45 35 50 15Z" fill="#8b5cf6" transform="rotate(45 50 50)"/>
+    </svg>
+
+    <svg class="starburst-flower" style="top: 20%; right: 10%;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 0C52 25 75 48 100 50C75 52 52 75 50 100C48 75 25 52 0 50C25 48 48 25 50 0Z" fill="#9d72f3"/>
+    </svg>
+
+    <svg class="starburst-flower small" style="bottom: 15%; left: 12%;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 0C52 25 75 48 100 50C75 52 52 75 50 100C48 75 25 52 0 50C25 48 48 25 50 0Z" fill="#9d72f3"/>
+    </svg>
+
+    <div class="hero-banner">
+      <h1 class="hero-title">PORT<span style="color: var(--purple-dark);">F</span>OLIO <span class="year-badge">'26</span></h1>
     </div>
-    <div class="image">
-      <img draggable="false" class="tilt" src="./assets/images/hero.png" alt="">
+
+    <div class="hero-center">
+      <div class="hero-image">
+        <div class="photo-badge">
+          <img draggable="false" src="./assets/images/ashish.jpg" alt="Ashish Rautela">
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <h2>Hi, I'm Ashish <span>Rautela</span></h2>
+        <p>I build <span class="typing-text"></span></p>
+        
+        <div class="hero-btn-container">
+          <a href="#about" class="btn"><span>About Me</span> <i class="fas fa-arrow-circle-down"></i></a>
+          <a href="https://github.com/Ashish-Rautela" target="_blank" class="btn btn-purple"><i class="fab fa-github"></i> <span>GitHub</span></a>
+        </div>
+
+        <div class="socials">
+          <ul class="social-icons">
+            <li><a class="linkedin" aria-label="LinkedIn" href="https://www.linkedin.com/in/ashish-rautela-82322b33a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a class="github" aria-label="GitHub" href="https://github.com/Ashish-Rautela" target="_blank"><i class="fab fa-github"></i></a></li>
+            <li><a class="instagram" aria-label="Instagram" href="https://www.instagram.com/xashish_rautela?igsh=MWplYWhzNGJuMHVwaw==" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            <li><a class="email" aria-label="Email" href="mailto:ashishrautela190@gmail.com"><i class="fas fa-envelope"></i></a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
   <!-- hero section ends -->
 
 
   <!-- about section starts -->
-  <section class="about" id="about">
-    <h2 class="heading"><i class="fas fa-user-alt"></i> About <span>Me</span></h2>
+  <section class="about-section" id="about">
+    <!-- Torn Edge Divider Top -->
+    <div class="torn-edge-top">
+      <svg viewBox="0 0 1440 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 L0,15 C60,22 120,8 180,20 C240,32 300,12 360,25 C420,38 480,18 540,30 C600,40 660,22 720,32 C780,40 840,24 900,34 C960,40 1020,25 1080,35 C1140,40 1200,26 1260,36 C1320,40 1380,28 1440,35 L1440,40 Z" fill="#d2ec35"></path>
+        <path d="M0,15 C60,22 120,8 180,20 C240,32 300,12 360,25 C420,38 480,18 540,30 C600,40 660,22 720,32 C780,40 840,24 900,34 C960,40 1020,25 1080,35 C1140,40 1200,26 1260,36 C1320,40 1380,28 1440,35" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"></path>
+      </svg>
+    </div>
 
-    <div class="row">
-
-      <div class="image">
-        <img draggable="false" class="tilt" src="./assets/images/ashish.jpg" alt="">
+    <div class="about-container">
+      <div class="about-badge-col">
+        <div class="lanyard-card">
+          <img draggable="false" src="./assets/images/ashish.jpg" alt="Ashish Rautela Badge">
+          <div style="text-align: center; margin-top: 1rem;">
+            <h4 style="font-size: 1.8rem; font-weight: 800;">Ashish Rautela</h4>
+            <p style="font-size: 1.3rem; color: #555; font-weight: 700;">Full Stack & Cloud Dev</p>
+          </div>
+        </div>
       </div>
-      <div class="content">
-        <h3>I'm Ashish</h3>
-        <span class="tag">Full Stack Developer</span>
 
-        <p>I'm Ashish Rautela, a B.Tech CSE student at Graphic Era Hill University, Dehradun. I'm passionate about
-          problem-solving, web development, and AI projects.
+      <div class="about-content-col">
+        <h3>Hello!</h3>
+        <p class="about-bio">
+          Hi, my name is <strong>Ashish Rautela</strong>, a B.Tech CSE student at Graphic Era Hill University, Dehradun. I am passionate about problem-solving, scalable backend engineering, cloud systems (AWS), and full-stack development. I build high-concurrency event-driven platforms, financial analytics engines, and blockchain systems.
+        </p>
 
-          I'm skilled in C++ (DSA), MERN stack, and have built projects like a QR Code Generator, Ration Distribution
-          System, and a Blockchain-based Online Voting System. I also created an AI-powered phone assistant with my
-          hackathon team Cypher Chasers.
+        <div class="about-grid">
+          <div class="about-block">
+            <h4>Education</h4>
+            <p>
+              <strong>B.Tech Computer Science</strong><br>
+              Graphic Era Hill University<br>
+              <span style="color: #333; font-size: 1.4rem;">2024 – 2028 | Pursuing</span>
+            </p>
+          </div>
 
-          Currently, I'm solving problems on LeetCode (250+ so far), working on projects, and preparing for GSoC 2026.
-          My goal is to build innovative, real-world solutions that make an impact.</p>
+          <div class="about-block">
+            <h4>Contact</h4>
+            <ul>
+              <li><i class="fas fa-envelope"></i> ashishrautela190@gmail.com</li>
+              <li><i class="fas fa-map-marker-alt"></i> Uttarakhand, India</li>
+              <li><i class="fab fa-github"></i> Ashish-Rautela</li>
+            </ul>
+          </div>
 
-        <div class="box-container">
-          <!-- <div class="box">
-              <p><span> age: </span> 20</p>
-              <p><span> phone : </span> +91 XXX-XXX-XXXX</p>
-            </div> -->
-          <div class="box">
-            <p><span> email : </span> ashishrautela190@gmail.com</p>
-            <p><span> place : </span> Uttarakhand, India</p>
+          <div class="about-block">
+            <h4>Skills</h4>
+            <ul>
+              <li>Problem Solving & DSA</li>
+              <li>Scalable Event Systems</li>
+              <li>Cloud Architecture</li>
+              <li>Teamwork & Leadership</li>
+            </ul>
+          </div>
+
+          <div class="about-block">
+            <h4>Tech Stack</h4>
+            <div class="software-pills">
+              <span class="software-pill">Node.js</span>
+              <span class="software-pill">Express</span>
+              <span class="software-pill">MongoDB</span>
+              <span class="software-pill">Redis</span>
+              <span class="software-pill">AWS</span>
+              <span class="software-pill">C++</span>
+              <span class="software-pill">React</span>
+            </div>
           </div>
         </div>
 
-        <div class="resumebtn">
-          <a href="https://drive.google.com/file/d/1YyagLN_7ye3iYZbZCNKA8wjSTI3-FzQ4/view?usp=drive_link"
-            target="_blank" class="btn"><span>Resume</span>
-            <i class="fas fa-chevron-right"></i>
+        <div style="margin-top: 2.5rem;">
+          <a href="https://drive.google.com/file/d/1YyagLN_7ye3iYZbZCNKA8wjSTI3-FzQ4/view?usp=drive_link" target="_blank" class="btn" style="background: var(--text-dark); color: #fff;">
+            <span>Resume</span> <i class="fas fa-chevron-right"></i>
           </a>
         </div>
-
       </div>
+    </div>
+
+    <!-- Torn Edge Divider Bottom -->
+    <div class="torn-edge-bottom">
+      <svg viewBox="0 0 1440 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 L0,20 C60,12 120,28 180,15 C240,2 300,22 360,10 C420,0 480,16 540,6 C600,0 660,18 720,8 C780,0 840,16 900,6 C960,0 1020,15 1080,5 C1140,0 1200,14 1260,4 C1320,0 1380,12 1440,5 L1440,40 Z" fill="#f6f4ee"></path>
+        <path d="M0,20 C60,12 120,28 180,15 C240,2 300,22 360,10 C420,0 480,16 540,6 C600,0 660,18 720,8 C780,0 840,16 900,6 C960,0 1020,15 1080,5 C1140,0 1200,14 1260,4 C1320,0 1380,12 1440,5" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"></path>
+      </svg>
     </div>
   </section>
   <!-- about section ends -->
 
+
   <!-- skills section starts -->
   <section class="skills" id="skills">
-
-    <h2 class="heading"><i class="fas fa-laptop-code"></i> Skills & <span>Abilities</span></h2>
+    <h2 class="heading">Skills & <span>Abilities</span></h2>
 
     <div class="container">
       <div class="row" id="skillsContainer">
-
-        <!-- <div class="bar">
-              <div class="info">
-                <img src="https://img.icons8.com/color/48/000000/adobe-xd.png"/>
-                <span>AdobeXD</span>
-              </div>
-            </div> -->
-
+        <!-- Rendered dynamically via script.js -->
       </div>
     </div>
   </section>
@@ -144,64 +204,38 @@
 
   <!-- education section starts -->
   <section class="education" id="education">
-
-    <h1 class="heading"><i class="fas fa-graduation-cap"></i> My <span>Education </span>/<span> PESE Protfolio</span></h1>
-
-    <p class="qoute">Education is not the learning of facts, but the training of the mind to think.</p>
+    <h2 class="heading">My <span>Education</span></h2>
 
     <div class="box-container">
       <div class="box">
-        
         <div class="image">
-          <img draggable="false" src="https://gehu.ac.in/assets/images/GEHU-Dehradun-1abd6f9c.webp" alt="">
+          <img draggable="false" src="https://gehu.ac.in/assets/images/GEHU-Dehradun-1abd6f9c.webp" alt="Graphic Era Hill University">
         </div>
         <div class="content">
-          <h3>Tap to see PESE Protfolio</h3>
-          <h3>Bachelor of Engineering in Information Technology</h3>
-          <p>Graphic Era Hill University</p>
-          <h4>2024-2028 | Pursuing</h4>
-          
+          <h3>Bachelor of Technology in Computer Science & Engineering</h3>
+          <p>Graphic Era Hill University, Dehradun</p>
+          <h4>2024 - 2028 | Pursuing</h4>
         </div>
       </div>
-
     </div>
   </section>
-  
   <!-- education section ends -->
 
 
   <!-- work project section starts -->
   <section class="work" id="work">
-
-    <h2 class="heading"><i class="fas fa-laptop-code"></i> Projects <span>Made</span></h2>
+    <h2 class="heading">Featured <span>Projects</span></h2>
 
     <div class="box-container">
-
-      <!-- <div class="box tilt">
-      <img draggable="false" src="./assets/images/projects/portfolio1.PNG" alt="" />
-      <div class="content">
-        <div class="tag">
-        <h3>Portfolio Website</h3>
-        </div>
-        <div class="desc">
-          <p>Personal portfolio website. Don't need much info about it, just scroll down. You're here only!</p>
-          <div class="btns">
-            <a href="#" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-            <a href="https://github.com/Ashish-Rautela/Portfolio-Website" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
+      <!-- Projects rendered dynamically from projects/projects.json -->
     </div>
-
   </section>
   <!-- work project section ends -->
 
+
   <!-- experience section starts -->
   <section class="experience" id="experience">
-
-    <h2 class="heading"><i class="fas fa-briefcase"></i> Achievements </h2>
+    <h2 class="heading">Experience & <span>Progress</span></h2>
 
     <div class="timeline">
       <div class="container right">
@@ -211,10 +245,11 @@
           </div>
           <div class="desc">
             <h3>IIT Guwahati Hackathon</h3>
-            <p>jan - 2025</p>
+            <p>Jan 2025</p>
           </div>
         </div>
       </div>
+
       <div class="container left">
         <div class="content">
           <div class="tag">
@@ -222,70 +257,69 @@
           </div>
           <div class="desc">
             <h3>World Cup Hackathon League</h3>
-            <p>aug - 2025</p>
+            <p>Aug 2025</p>
           </div>
         </div>
       </div>
+
       <div class="container right">
         <div class="content">
           <div class="tag">
-            <h2>Has Done More Then 450+ Ques in LeetCode</h2>
+            <h2>Solved 500+ Data Structures & Algorithms Problems</h2>
           </div>
           <div class="desc">
-            <h3>World Cup Hackathon League</h3>
-            <p>2025 - present</p>
+            <h3>LeetCode</h3>
+            <p>2026 - Present</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container left">
+        <div class="content">
+          <div class="tag">
+            <h2>Software Engineering Intern</h2>
+          </div>
+          <div class="desc">
+            <h3>Prodyt — WhatsApp Marketing & CRM Platform</h3>
+            <p>May 2026 – Present | Remote</p>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="morebtn">
-      <a href="/experience" class="btn"><span>View All</span>
-        <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-
-    </div>
-
   </section>
   <!-- experience section ends -->
 
+
   <!-- contact section starts -->
   <section class="contact" id="contact">
-
-    <h2 class="heading"><i class="fas fa-headset"></i> Get in <span>Touch</span></h2>
+    <h2 class="heading" style="margin-bottom: 2rem;">Get in <span>Touch</span></h2>
 
     <div class="container">
-      <div class="content">
-        <div class="image-box">
-          <img draggable="false" src="./assets/images/contact1.png" alt="">
+      <form id="contact-form" class="contact-form">
+        <div class="form-group">
+          <div class="field">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <i class='fas fa-user'></i>
+          </div>
+          <div class="field">
+            <input type="email" name="email" placeholder="Your Email" required>
+            <i class='fas fa-envelope'></i>
+          </div>
+          <div class="field">
+            <input type="text" name="phone" placeholder="Phone Number">
+            <i class='fas fa-phone-alt'></i>
+          </div>
+          <div class="message field">
+            <textarea placeholder="Your Message..." name="message" required></textarea>
+            <i class="fas fa-comment-dots"></i>
+          </div>
         </div>
-        <form id="contact-form">
-
-          <div class="form-group">
-            <div class="field">
-              <input type="text" name="name" placeholder="Name" required>
-              <i class='fas fa-user'></i>
-            </div>
-            <div class="field">
-              <input type="text" name="email" placeholder="Email" required>
-              <i class='fas fa-envelope'></i>
-            </div>
-            <div class="field">
-              <input type="text" name="phone" placeholder="Phone">
-              <i class='fas fa-phone-alt'></i>
-            </div>
-            <div class="message">
-              <textarea placeholder="Message" name="message" required></textarea>
-              <i class="fas fa-comment-dots"></i>
-            </div>
-          </div>
-          <div class="button-area">
-            <button type="submit">
-              Submit <i class="fa fa-paper-plane"></i></button>
-          </div>
-        </form>
-      </div>
+        <div style="text-align: center; margin-top: 2rem;">
+          <button type="submit" class="btn" style="background: var(--purple-accent); color: #fff;">
+            Submit <i class="fa fa-paper-plane"></i>
+          </button>
+        </div>
+      </form>
     </div>
   </section>
   <!-- contact section ends -->
@@ -293,81 +327,45 @@
 
   <!-- footer section starts -->
   <section class="footer">
-
     <div class="box-container">
-
       <div class="box">
         <h3>Ashish's Portfolio</h3>
-        <p>Thank you for visiting my personal portfolio website. Connect with me over socials. <br /> <br /> Keep Rising
-          🚀. Connect with me over live chat!</p>
+        <p>Thank you for visiting my portfolio. Connect with me over socials or drop a message!</p>
       </div>
 
       <div class="box">
-        <h3>quick links</h3>
-        <a href="#home"><i class="fas fa-chevron-circle-right"></i> home</a>
-        <a href="#about"><i class="fas fa-chevron-circle-right"></i> about</a>
-        <a href="#skills"><i class="fas fa-chevron-circle-right"></i> skills</a>
-        <a href="#education"><i class="fas fa-chevron-circle-right"></i> education</a>
-        <a href="#work"><i class="fas fa-chevron-circle-right"></i> work</a>
-        <a href="#experience"><i class="fas fa-chevron-circle-right"></i> Achievements</a>
+        <h3>Quick Links</h3>
+        <a href="#home"><i class="fas fa-chevron-circle-right"></i> Home</a><br>
+        <a href="#about"><i class="fas fa-chevron-circle-right"></i> About</a><br>
+        <a href="#skills"><i class="fas fa-chevron-circle-right"></i> Skills</a><br>
+        <a href="#work"><i class="fas fa-chevron-circle-right"></i> Work</a><br>
+        <a href="#experience"><i class="fas fa-chevron-circle-right"></i> Experience & Progress</a>
       </div>
 
       <div class="box">
-        <h3>contact info</h3>
-        <p> <i class="fas fa-phone"></i>+91 XXX-XXX-XXXX</p>
-        <p> <i class="fas fa-envelope"></i>ashishrautela190@gmail.com</p>
-        <p> <i class="fas fa-map-marked-alt"></i>Dehradun, India</p>
-        <div class="share">
-
-          <a href="https://www.linkedin.com/in/Ashish-Rautela" class="fab fa-linkedin" aria-label="LinkedIn"
-            target="_blank"></a>
-          <a href="https://github.com/Ashish-Rautela" class="fab fa-github" aria-label="GitHub" target="_blank"></a>
-          <a href="mailto:ashishrautela190@gmail.com" class="fas fa-envelope" aria-label="Mail" target="_blank"></a>
-        </div>
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-envelope"></i> ashishrautela190@gmail.com</p>
+        <p><i class="fas fa-map-marked-alt"></i> Dehradun, Uttarakhand, India</p>
       </div>
     </div>
 
-    <h1 class="credit">Designed with <i class="fa fa-heart pulse"></i> by <a
-        href="https://www.linkedin.com/in/Ashish-Rautela"> Ashish Rautela</a></h1>
-
+    <h1 class="credit">Designed & Built by <a href="https://www.linkedin.com/in/Ashish-Rautela">Ashish Rautela</a></h1>
   </section>
   <!-- footer section ends -->
 
 
   <!-- scroll top btn -->
-  <a href="#home" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top"></a>
-  <!-- scroll back to top -->
+  <a href="#home" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top" style="position: fixed; bottom: 2rem; right: 2rem; background: var(--bg-lime); color: var(--text-dark); padding: 1rem 1.4rem; border-radius: 50%; border: 2px solid var(--text-dark); box-shadow: 3px 3px 0px var(--text-dark); z-index: 100;"></a>
 
-
-  <!-- ==== ALL MAJOR JAVASCRIPT CDNS STARTS ==== -->
-  <!-- jquery cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <!-- typed.js cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js"
-    integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <!-- particle.js links -->
+  <!-- ==== JAVASCRIPT CDNS & SCRIPTS ==== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js"></script>
   <script src="./assets/js/particles_min.js"></script>
   <script src="./assets/js/app.js"></script>
-
-  <!-- vanilla tilt.js links -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"
-    integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <!-- scroll reveal anim -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
   <script src="https://unpkg.com/scrollreveal"></script>
-
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-  <!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
-
   <script src="./assets/js/script.js"></script>
-
 </body>
 
 </html>
