@@ -934,7 +934,7 @@ section {
 
 @media (max-width: 768px) {
   section {
-    padding: 5rem 5% 3.5rem 5%;
+    padding: 3.5rem 5% 2rem 5%;
   }
 
   .heading {
@@ -948,8 +948,13 @@ section {
 
   /* Hero Section Mobile */
   .home {
-    padding-top: 8rem;
+    padding-top: 7.5rem;
+    padding-bottom: 1rem;
     min-height: auto;
+  }
+
+  .hero-banner {
+    margin-bottom: 1rem;
   }
 
   .hero-banner .hero-title {
@@ -965,8 +970,8 @@ section {
 
   .hero-center {
     flex-direction: column-reverse;
-    gap: 2.5rem;
-    margin-top: 1.5rem;
+    gap: 1.8rem;
+    margin-top: 1rem;
   }
 
   .hero-content {
@@ -979,10 +984,16 @@ section {
 
   .hero-content p {
     font-size: 1.7rem;
+    margin: 0.8rem 0;
   }
 
   .hero-btn-container {
     justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .socials {
+    margin-top: 1.2rem;
   }
 
   .social-icons {
@@ -990,14 +1001,19 @@ section {
   }
 
   .hero-image {
-    max-width: 240px;
+    max-width: 220px;
     margin: 0 auto;
   }
 
   /* About Section Mobile */
+  .about-section {
+    margin: 2rem 0;
+    padding: 3.5rem 5% 2.5rem 5%;
+  }
+
   .about-container {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
   }
 
   .about-content-col h3 {
