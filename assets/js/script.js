@@ -37,122 +37,171 @@ $(document).ready(function () {
         }, 500, 'linear')
     });
 
-    // <!-- emailjs to mail contact form data -->
-    emailjs.init("zYqMY2e_q9Pj7HFJe");
+    // emailjs contact form
+    if (document.getElementById("contact-form")) {
+        emailjs.init("zYqMY2e_q9Pj7HFJe");
 
-    document.getElementById("contact-form").addEventListener("submit", function (event) {
-        event.preventDefault();
+        document.getElementById("contact-form").addEventListener("submit", function (event) {
+            event.preventDefault();
 
-        emailjs.sendForm(
-            "service_stewulh",    // from EmailJS service
-            "template_suxk5z2",   // from EmailJS template
-            this                  // "this" = the form
-        )
-            .then(function (response) {
-                console.log("SUCCESS!", response.status, response.text);
-                document.getElementById("contact-form").reset();
-                alert("Form Submitted Successfully!");
-            }, function (error) {
-                console.log("FAILED...", error);
-                alert("Form Submission Failed! Try Again.");
-            });
-    });
-
-    // <!-- emailjs to mail contact form data -->
+            emailjs.sendForm(
+                "service_stewulh",
+                "template_suxk5z2",
+                this
+            )
+                .then(function (response) {
+                    console.log("SUCCESS!", response.status, response.text);
+                    document.getElementById("contact-form").reset();
+                    alert("Form Submitted Successfully!");
+                }, function (error) {
+                    console.log("FAILED...", error);
+                    alert("Form Submission Failed! Try Again.");
+                });
+        });
+    }
 
 });
 
-document.addEventListener('visibilitychange',
-    function () {
-        if (document.visibilityState === "visible") {
-            document.title = "Portfolio | Ashish Rautela";
-            $("#favicon").attr("href", "assets/images/favicon.png");
-        }
-        else {
-            document.title = "Come Back To Portfolio";
-            $("#favicon").attr("href", "assets/images/favhand.png");
-        }
-    });
+document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === "visible") {
+        document.title = "Portfolio '26 | Ashish Rautela";
+        $("#favicon").attr("href", "assets/images/favicon.png");
+    }
+    else {
+        document.title = "Come Back To Portfolio";
+        $("#favicon").attr("href", "assets/images/favhand.png");
+    }
+});
 
-
-// <!-- typed js effect starts -->
+// typed js effect
 var typed = new Typed(".typing-text", {
-    strings: ["frontend development", "backend development", "web designing", "web development"],
+    strings: ["full stack applications", "scalable event-driven backends", "cloud infrastructure on AWS", "high-performance algorithms"],
     loop: true,
     typeSpeed: 50,
     backSpeed: 25,
     backDelay: 500,
 });
-// <!-- typed js effect ends -->
 
-async function fetchData(type = "skills") {
-    let response
-    type === "skills" ?
-        response = await fetch("skills.json")
-        :
-        response = await fetch("./projects/projects.json")
-    const data = await response.json();
-    return data;
-}
+// Fallback Data Arrays
+const defaultSkills = [
+    { name: "ReactJS", icon: "https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/000000/external-react-a-javascript-library-for-building-user-interfaces-logo-color-tal-revivo.png" },
+    { name: "ExpressJS", icon: "https://img.icons8.com/fluency/48/000000/node-js.png" },
+    { name: "NodeJS", icon: "https://img.icons8.com/color/48/000000/nodejs.png" },
+    { name: "Redux", icon: "https://img.icons8.com/color/48/000000/redux.png" },
+    { name: "MaterialUI", icon: "https://img.icons8.com/color/48/000000/material-ui.png" },
+    { name: "HTML5", icon: "https://img.icons8.com/color/48/000000/html-5--v1.png" },
+    { name: "CSS3", icon: "https://img.icons8.com/color/48/000000/css3.png" },
+    { name: "JavaScript", icon: "https://img.icons8.com/color/48/000000/javascript--v1.png" },
+    { name: "Python", icon: "https://img.icons8.com/color/48/000000/python--v1.png" },
+    { name: "C++", icon: "https://img.icons8.com/color/48/000000/c-plus-plus-logo.png" },
+    { name: "MongoDB", icon: "https://img.icons8.com/color/48/000000/mongodb.png" },
+    { name: "jQuery", icon: "https://img.icons8.com/ios-filled/48/1169ae/jquery.png" },
+    { name: "Git VCS", icon: "https://img.icons8.com/color/48/000000/git.png" },
+    { name: "GitHub", icon: "https://img.icons8.com/glyph-neue/48/000000/github.png" },
+    { name: "WordPress", icon: "https://img.icons8.com/color/48/000000/wordpress.png" }
+];
+
+const defaultProjects = [
+    {
+        name: "EventFlow | Scalable Event Streaming & Processing System",
+        desc: "An event-driven backend handling 10K+ events/min with atomic offset management (Redis INCR), fault-tolerant consumer pipeline with retry logic and DLQ, and real-time observability metrics.",
+        image: "eventflow.png",
+        category: "mern",
+        links: {
+            view: "https://github.com/Ashish-Rautela/EventFlow",
+            code: "https://github.com/Ashish-Rautela/EventFlow"
+        }
+    },
+    {
+        name: "Finance Data Processing & Analytics Backend",
+        desc: "High-performance finance backend with JWT authentication, RBAC, REST APIs for record filtering, and MongoDB aggregation pipelines for dashboard analytics deployed on AWS EC2.",
+        image: "finance.png",
+        category: "mern",
+        links: {
+            view: "https://github.com/Ashish-Rautela/finance-dashboard-backend",
+            code: "https://github.com/Ashish-Rautela/finance-dashboard-backend"
+        }
+    },
+    {
+        name: "Decentralized Online Voting System",
+        desc: "A secure online voting platform built with blockchain technology and smart contracts, ensuring data immutability, transparency, and role-based access control.",
+        image: "voting.png",
+        category: "mern",
+        links: {
+            view: "https://github.com/Ashish-Rautela/Decentralized_Online_Voting_System",
+            code: "https://github.com/Ashish-Rautela/Decentralized_Online_Voting_System"
+        }
+    }
+];
 
 function showSkills(skills) {
     let skillsContainer = document.getElementById("skillsContainer");
+    if (!skillsContainer) return;
     let skillHTML = "";
     skills.forEach(skill => {
         skillHTML += `
         <div class="bar">
-              <div class="info">
-                <img src=${skill.icon} alt="skill" />
-                <span>${skill.name}</span>
-              </div>
-            </div>`
+          <div class="info">
+            <img src="${skill.icon}" alt="skill" />
+            <span>${skill.name}</span>
+          </div>
+        </div>`;
     });
     skillsContainer.innerHTML = skillHTML;
 }
 
 function showProjects(projects) {
     let projectsContainer = document.querySelector("#work .box-container");
+    if (!projectsContainer) return;
     let projectHTML = "";
     projects.slice(0, 10).filter(project => project.category != "android").forEach(project => {
+        let baseName = project.image.split('.')[0];
+        let imgSrc = project.image.includes('.') ? `./assets/images/projects/${project.image}` : `./assets/images/projects/${project.image}.png`;
         projectHTML += `
         <div class="box tilt">
-      <img draggable="false" src="./assets/images/projects/${project.image}.png" alt="project" />
-      <div class="content">
-        <div class="tag">
-        <h3>${project.name}</h3>
-        </div>
-        <div class="desc">
-          <p>${project.desc}</p>
-          <div class="btns">
-            <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-            <a href="${project.links.code}" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
+          <img draggable="false" src="${imgSrc}" onerror="this.onerror=null; this.src='./assets/images/projects/${baseName}.png';" alt="project" />
+          <div class="content">
+            <div class="tag">
+              <h3>${project.name}</h3>
+            </div>
+            <div class="desc">
+              <p>${project.desc}</p>
+              <div class="btns">
+                <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
+                <a href="${project.links.code}" class="btn btn-purple" target="_blank">Code <i class="fas fa-code"></i></a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>`
+        </div>`;
     });
     projectsContainer.innerHTML = projectHTML;
 
-    // <!-- tilt js effect starts -->
-    VanillaTilt.init(document.querySelectorAll(".tilt"), {
-        max: 15,
-    });
-    // <!-- tilt js effect ends -->
-
-    /* ===== SCROLL REVEAL ANIMATION ===== */
-    const srtop = ScrollReveal({
-        origin: 'top',
-        distance: '80px',
-        duration: 1000,
-        reset: true
-    });
-
-    /* SCROLL PROJECTS */
-    srtop.reveal('.work .box', { interval: 200 });
-
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".tilt"), {
+            max: 15,
+        });
+    }
 }
 
-fetchData().then(data => {
+// Render fallback immediately so page is never empty
+showSkills(defaultSkills);
+showProjects(defaultProjects);
+
+// Attempt fetch and update if available
+async function fetchData(type = "skills") {
+    try {
+        let url = (type === "skills") ? "skills.json" : "./projects/projects.json";
+        let response = await fetch(url);
+        if (!response.ok) throw new Error("Fetch failed");
+        let data = await response.json();
+        return data;
+    } catch (e) {
+        console.warn("Using fallback data for " + type, e);
+        return (type === "skills") ? defaultSkills : defaultProjects;
+    }
+}
+
+fetchData("skills").then(data => {
     showSkills(data);
 });
 
@@ -160,114 +209,18 @@ fetchData("projects").then(data => {
     showProjects(data);
 });
 
-// <!-- tilt js effect starts -->
-VanillaTilt.init(document.querySelectorAll(".tilt"), {
-    max: 15,
-});
-// <!-- tilt js effect ends -->
-
-
-// pre loader start
-// function loader() {
-//     document.querySelector('.loader-container').classList.add('fade-out');
-// }
-// function fadeOut() {
-//     setInterval(loader, 500);
-// }
-// window.onload = fadeOut;
-// pre loader end
-
-// disable developer mode
+// Disable developer keys
 document.onkeydown = function (e) {
-    if (e.keyCode == 123) {
-        return false;
-    }
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-        return false;
-    }
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-        return false;
-    }
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-        return false;
-    }
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-        return false;
-    }
-}
+    if (e.keyCode == 123) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+};
 
-// Start of Tawk.to Live Chat
-var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-(function () {
-    var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-    s1.async = true;
-    s1.src = 'https://embed.tawk.to/60df10bf7f4b000ac03ab6a8/1f9jlirg6';
-    s1.charset = 'UTF-8';
-    s1.setAttribute('crossorigin', '*');
-    s0.parentNode.insertBefore(s1, s0);
-})();
-// End of Tawk.to Live Chat
-
-
-/* ===== SCROLL REVEAL ANIMATION ===== */
-const srtop = ScrollReveal({
-    origin: 'top',
-    distance: '80px',
-    duration: 1000,
-    reset: true
-});
-
-/* SCROLL HOME */
-srtop.reveal('.home .content h3', { delay: 200 });
-srtop.reveal('.home .content p', { delay: 200 });
-srtop.reveal('.home .content .btn', { delay: 200 });
-
-srtop.reveal('.home .image', { delay: 400 });
-srtop.reveal('.home .linkedin', { interval: 600 });
-srtop.reveal('.home .github', { interval: 800 });
-srtop.reveal('.home .twitter', { interval: 1000 });
-srtop.reveal('.home .telegram', { interval: 600 });
-srtop.reveal('.home .instagram', { interval: 600 });
-srtop.reveal('.home .dev', { interval: 600 });
-
-/* SCROLL ABOUT */
-srtop.reveal('.about .content h3', { delay: 200 });
-srtop.reveal('.about .content .tag', { delay: 200 });
-srtop.reveal('.about .content p', { delay: 200 });
-srtop.reveal('.about .content .box-container', { delay: 200 });
-srtop.reveal('.about .content .resumebtn', { delay: 200 });
-
-
-/* SCROLL SKILLS */
-srtop.reveal('.skills .container', { interval: 200 });
-srtop.reveal('.skills .container .bar', { delay: 400 });
-
-/* SCROLL EDUCATION */
-srtop.reveal('.education .box', { interval: 200 });
-
-/* SCROLL PROJECTS */
-srtop.reveal('.work .box', { interval: 200 });
-
-/* SCROLL EXPERIENCE */
-srtop.reveal('.experience .timeline', { delay: 400 });
-srtop.reveal('.experience .timeline .container', { interval: 400 });
-
-/* SCROLL CONTACT */
-srtop.reveal('.contact .container', { delay: 400 });
-srtop.reveal('.contact .container .form-group', { delay: 400 });
-
-
-// ...existing code...
-
+// Education box click
 $(document).ready(function () {
-    // ...existing code...
-
-    // Add click event for education box
     $('.education .box').on('click', function () {
         window.open('./college/index.html', '_blank');
     });
-
-    // ...existing code...
 });
-
-// ...existing code...

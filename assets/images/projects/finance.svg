@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="#111111" stroke="#d2ec35" stroke-width="8"/>
+  
+  <!-- Subtle Decorative Corner Accent -->
+  <rect x="25" y="25" width="750" height="400" rx="12" fill="none" stroke="#d2ec35" stroke-width="2" stroke-dasharray="8 8" opacity="0.3"/>
+
+  <!-- Centered Icon & Text Group -->
+  <g transform="translate(400, 225)" text-anchor="middle">
+    <!-- Code Bracket Symbol -->
+    <text x="0" y="-30" fill="#9d72f3" font-family="'Plus Jakarta Sans', sans-serif" font-size="56" font-weight="900">&lt; / &gt;</text>
+    
+    <!-- Main Text -->
+    <text x="0" y="45" fill="#d2ec35" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="900" letter-spacing="2">BACKEND PROJECT</text>
+  </g>
+</svg>
