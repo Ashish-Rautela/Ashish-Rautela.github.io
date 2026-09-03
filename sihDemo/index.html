@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwachhApp — Smart Waste Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --g900:#1B4332; --g800:#2D6A4F; --g700:#40916C; --g600:#52B788;
+  --g500:#74C69D; --g400:#95D5B2; --g300:#B7E4C7; --g200:#D8F3DC; --g100:#F0F7F4;
+  --orange:#F4A261; --coral:#E76F51; --blue:#457B9D; --pink:#FFB4A2;
+  --yellow:#FFD166; --purple:#7B68EE; --red:#E63946;
+  --bg:#F4F9F6; --card:#FFFFFF; --glass:rgba(255,255,255,0.72);
+  --text:#1B4332; --text2:#40916C; --text3:#8DB5A0;
+  --shadow: 0 2px 16px rgba(27,67,50,0.07);
+  --shadow-lg: 0 8px 32px rgba(27,67,50,0.10);
+  --radius: 20px;
+  --nav-h: 64px;
+}
+
+body {
+  font-family:'Inter',system-ui,sans-serif;
+  background: linear-gradient(160deg,#D8F3DC 0%,#B7E4C7 40%,#95D5B2 100%);
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+
+/* ═══════ PHONE FRAME — responsive to viewport ═══════ */
+.phone {
+  width:390px;
+  height: min(844px, calc(100vh - 32px));
+  background:var(--bg);
+  border-radius:48px; position:relative; overflow:hidden;
+  box-shadow: 0 0 0 10px #1a1a2e, 0 0 0 12px #33334d, 0 24px 80px rgba(0,0,0,0.35);
+}
+.phone::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:130px; height:30px; background:#1a1a2e; border-radius:0 0 20px 20px; z-index:100;
+}
+
+/* Status bar */
+.status-bar {
+  height:44px; padding:12px 24px 0; display:flex;
+  justify-content:space-between; align-items:center; font-size:12px;
+  font-weight:600; color:var(--g800); position:absolute; top:0; left:0; right:0; z-index:99;
+}
+
+/* ═══════ PAGES ═══════ */
+.pages {
+  height:calc(100% - var(--nav-h));
+  position:relative; overflow:hidden;
+}
+.page {
+  position:absolute; inset:0;
+  overflow-y:auto; overflow-x:hidden;
+  padding: 44px 0 16px;
+  transform:translateX(100%); opacity:0;
+  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease;
+  background:var(--bg);
+  scrollbar-width:none;
+}
+.page::-webkit-scrollbar{display:none}
+.page.active{transform:translateX(0);opacity:1}
+.page.exit-left{transform:translateX(-20%);opacity:0}
+
+/* ═══════ BOTTOM NAV ═══════ */
+.bottom-nav {
+  height:var(--nav-h);
+  background:var(--glass); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-top:1px solid rgba(27,67,50,0.06);
+  display:flex; align-items:center; justify-content:space-around;
+  padding-bottom:6px; position:relative; z-index:50;
+}
+.nav-item {
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  background:none; border:none; cursor:pointer; padding:6px 14px;
+  color:var(--text3); transition:all .25s; font-family:inherit;
+}
+.nav-item i{width:22px;height:22px;transition:transform .25s}
+.nav-item span{font-size:10px;font-weight:600;letter-spacing:.2px}
+.nav-item.active{color:var(--g700)}
+.nav-item.active i{transform:scale(1.1)}
+
+/* ═══════ SPLASH ═══════ */
+.splash {
+  position:absolute; inset:0; z-index:200;
+  background:linear-gradient(160deg,var(--g800),#163B2C);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition: opacity .5s ease, transform .5s ease;
+}
+.splash.hide{opacity:0;transform:scale(1.05);pointer-events:none}
+.splash-logo {
+  width:88px;height:88px;border-radius:24px;
+  background:linear-gradient(135deg,var(--g500),var(--g300));
+  display:flex;align-items:center;justify-content:center;
+  animation:splashPop .5s cubic-bezier(.68,-.55,.27,1.55) both;
+}
+.splash-logo i{width:44px;height:44px;color:var(--g900)}
+.splash h1{color:white;font-size:26px;font-weight:800;margin-top:14px;letter-spacing:-0.5px;animation:splashFade .5s .25s both}
+.splash p{color:var(--g400);font-size:13px;margin-top:4px;animation:splashFade .5s .4s both}
+.splash-bar{width:140px;height:3px;border-radius:3px;background:rgba(255,255,255,0.12);margin-top:28px;overflow:hidden}
+.splash-bar-fill{height:100%;background:var(--g400);border-radius:3px;animation:splashLoad 1.6s .4s ease-in-out both}
+
+@keyframes splashPop{from{transform:scale(0)rotate(-15deg);opacity:0}to{transform:scale(1)rotate(0);opacity:1}}
+@keyframes splashFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes splashLoad{from{width:0}to{width:100%}}
+
+/* ═══════ COMMON ═══════ */
+.section-pad{padding:0 20px}
+.section-title{font-size:15px;font-weight:700;color:var(--text);margin:18px 20px 10px;letter-spacing:-0.2px}
+
+.card {
+  background:var(--card); border-radius:var(--radius); padding:16px;
+  box-shadow:var(--shadow);
+}
+.glass-card {
+  background:var(--glass); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.5); border-radius:var(--radius); padding:16px;
+  box-shadow:var(--shadow);
+}
+
+/* Animated entrance */
+.ani{opacity:0;transform:translateY(16px);transition:all .45s cubic-bezier(.4,0,.2,1)}
+.ani.show{opacity:1;transform:translateY(0)}
+.ani:nth-child(2){transition-delay:.06s}
+.ani:nth-child(3){transition-delay:.12s}
+.ani:nth-child(4){transition-delay:.18s}
+.ani:nth-child(5){transition-delay:.24s}
+.ani:nth-child(6){transition-delay:.3s}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-green{background:var(--g200);color:var(--g800)}
+.badge-orange{background:#FFF3E0;color:#E65100}
+.badge-blue{background:#E3F2FD;color:#1565C0}
+.badge-red{background:#FFEBEE;color:#C62828}
+.badge-purple{background:#F3E5F5;color:#6A1B9A}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 22px;border-radius:14px;border:none;cursor:pointer;
+  font-family:inherit;font-weight:600;font-size:13px;transition:all .2s;
+  position:relative;overflow:hidden;
+}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:linear-gradient(135deg,var(--g700),var(--g600));color:white;box-shadow:0 4px 14px rgba(45,106,79,0.25)}
+.btn-secondary{background:var(--g200);color:var(--g800)}
+.btn-full{width:100%}
+
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.35);transform:scale(0);animation:rippleAni .5s ease-out}
+@keyframes rippleAni{to{transform:scale(4);opacity:0}}
+
+.progress-bar{height:5px;border-radius:5px;background:var(--g200);overflow:hidden}
+.progress-fill{height:100%;border-radius:5px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+
+/* Icon containers */
+.icon-box{
+  display:flex;align-items:center;justify-content:center;border-radius:14px;flex-shrink:0;
+}
+.icon-box i{width:20px;height:20px}
+.icon-box-lg i{width:24px;height:24px}
+.icon-box-sm{border-radius:10px}
+.icon-box-sm i{width:16px;height:16px}
+
+/* ═══════ HOME ═══════ */
+.home-header {
+  background:linear-gradient(160deg,var(--g800) 0%,var(--g700) 50%,var(--g600) 100%);
+  padding:14px 20px 24px; border-radius:0 0 28px 28px;
+  color:white; position:relative; overflow:hidden;
+}
+.home-header::after{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.05)}
+.home-header::before{content:'';position:absolute;bottom:-40px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.03)}
+
+.greeting{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:relative;z-index:1}
+.greeting h2{font-size:20px;font-weight:700;letter-spacing:-0.3px}
+.greeting .date{font-size:11px;opacity:0.65;margin-top:2px}
+.notif-btn{
+  width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;
+  border:none; color:white;
+}
+.notif-btn i{width:20px;height:20px}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--coral);
+  position:absolute;top:8px;right:8px;border:2px solid var(--g800);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+
+.score-section{display:flex;align-items:center;gap:18px;position:relative;z-index:1}
+.score-ring-wrap{position:relative;width:120px;height:120px;flex-shrink:0}
+.score-ring{transform:rotate(-90deg)}
+.score-ring circle{fill:none;stroke-width:8;stroke-linecap:round}
+.score-ring .ring-bg{stroke:rgba(255,255,255,0.12)}
+.score-ring .ring-fill{stroke:var(--g300);stroke-dasharray:326;stroke-dashoffset:326;
+  transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.score-value{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white}
+.score-value .num{font-size:36px;font-weight:900;line-height:1}
+.score-value .label{font-size:10px;opacity:0.6;margin-top:3px}
+.score-info{color:white}
+.score-info .tip{font-size:12px;opacity:0.85;line-height:1.5}
+.score-info .badge{margin-top:8px;color:white;background:rgba(255,255,255,0.15);font-size:10px}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 16px;margin-top:-14px;position:relative;z-index:2}
+.stat-card{
+  background:var(--card);border-radius:16px;padding:12px 10px;text-align:center;
+  box-shadow:var(--shadow);
+}
+.stat-card .stat-icon{
+  width:36px;height:36px;border-radius:10px;display:flex;
+  align-items:center;justify-content:center;margin:0 auto 6px;
+}
+.stat-card .stat-icon i{width:18px;height:18px}
+.stat-card .stat-num{font-size:18px;font-weight:800;color:var(--text)}
+.stat-card .stat-label{font-size:9px;color:var(--text3);margin-top:2px;font-weight:500}
+
+.ai-card{
+  margin:12px 16px;padding:14px;border-radius:18px;
+  background:linear-gradient(135deg,#FFF5F7,#FFE8EC);
+  border:1px solid rgba(231,111,81,0.08);
+}
+.ai-card .ai-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.ai-card .ai-head .icon-box{width:24px;height:24px;border-radius:8px;background:rgba(231,111,81,0.12)}
+.ai-card .ai-head .icon-box i{width:14px;height:14px;color:var(--coral)}
+.ai-card .ai-head span{font-size:12px;font-weight:700;color:var(--coral)}
+.ai-card p{font-size:12px;color:#5D3A3A;line-height:1.5}
+
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px;margin-top:2px}
+.qa-btn{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 6px;border-radius:16px;background:var(--card);border:none;
+  cursor:pointer;box-shadow:var(--shadow);font-family:inherit;transition:all .2s;
+}
+.qa-btn:active{transform:scale(.94);box-shadow:none}
+.qa-btn .qa-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.qa-btn .qa-icon i{width:20px;height:20px}
+.qa-btn span{font-size:9px;font-weight:600;color:var(--text2)}
+
+.link-card{
+  margin:10px 16px;padding:14px;border-radius:18px;
+  background:var(--card);box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;
+}
+.link-card:active{transform:scale(.98)}
+.link-card .icon-box{width:40px;height:40px}
+.link-card-text{flex:1}
+.link-card-text h4{font-size:13px;font-weight:700;color:var(--text)}
+.link-card-text p{font-size:11px;color:var(--text3);margin-top:1px}
+.link-card .arrow{color:var(--text3)}
+.link-card .arrow i{width:16px;height:16px}
+
+/* ═══════ LEARN ═══════ */
+.learn-header{padding:14px 20px;text-align:center}
+.learn-header h2{font-size:19px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px}
+.learn-header h2 i{width:22px;height:22px;color:var(--g600)}
+.learn-progress{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:14px}
+.learn-ring-wrap{position:relative;width:90px;height:90px;flex-shrink:0}
+.learn-ring{transform:rotate(-90deg)}
+.learn-ring circle{fill:none;stroke-width:7;stroke-linecap:round}
+.learn-ring .lring-bg{stroke:var(--g200)}
+.learn-ring .lring-fill{stroke:var(--g600);stroke-dasharray:239;stroke-dashoffset:239;
+  transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1) .3s}
+.learn-ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.learn-ring-val .num{font-size:24px;font-weight:900;color:var(--text)}
+.learn-ring-val .pct{font-size:10px;color:var(--text3)}
+.learn-stats{text-align:left}
+.learn-stat{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.learn-stat .dot{width:8px;height:8px;border-radius:50%}
+.learn-stat span{font-size:11px;font-weight:500;color:var(--text2)}
+.learn-stat strong{font-weight:700;color:var(--text)}
+
+.course-card{
+  margin:0 16px 10px;padding:14px;border-radius:18px;
+  background:var(--card);box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  transition:all .2s;border:2px solid transparent;
+}
+.course-card:active{transform:scale(.98);border-color:var(--g400)}
+.course-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.course-icon i{width:22px;height:22px}
+.course-info{flex:1;min-width:0}
+.course-info h4{font-size:13px;font-weight:700;color:var(--text)}
+.course-info p{font-size:10px;color:var(--text3);margin-top:2px}
+.course-meta{display:flex;align-items:center;gap:8px;margin-top:6px}
+.course-progress{flex:1}
+
+.lb-section{margin:16px 16px 80px;padding:14px;border-radius:var(--radius);
+  background:linear-gradient(160deg,var(--g800),var(--g700));color:white}
+.lb-section h3{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.lb-section h3 i{width:16px;height:16px;color:var(--yellow)}
+.lb-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.lb-row:last-child{border:none}
+.lb-rank{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.lb-rank.gold{background:#FFD166;color:#5D3A00}
+.lb-rank.silver{background:#C0C0C0;color:#333}
+.lb-rank.bronze{background:#CD7F32;color:white}
+.lb-name{flex:1;font-size:12px;font-weight:600}
+.lb-pts{font-size:12px;font-weight:700;color:var(--g400)}
+
+/* ═══════ TRACK ═══════ */
+.track-header{padding:14px 20px}
+.track-header h2{font-size:19px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
+.track-header h2 i{width:22px;height:22px;color:var(--g600)}
+
+.pickup-card{
+  margin:0 16px 12px;padding:14px 16px;border-radius:18px;
+  background:linear-gradient(135deg,var(--g700),var(--g600));color:white;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pickup-info{display:flex;align-items:center;gap:10px}
+.pickup-info .icon-box{width:40px;height:40px;background:rgba(255,255,255,0.15);border-radius:12px}
+.pickup-info .icon-box i{width:20px;height:20px;color:white}
+.pickup-text h4{font-size:10px;opacity:0.7;font-weight:500}
+.pickup-text .pickup-time{font-size:16px;font-weight:800;margin-top:2px}
+.pickup-countdown{text-align:right}
+.pickup-countdown .cd-val{font-size:24px;font-weight:900}
+.pickup-countdown .cd-label{font-size:9px;opacity:0.65}
+
+.map-container{
+  margin:0 16px 12px;border-radius:18px;overflow:hidden;
+  height:170px;background:#E8F5E9;position:relative;box-shadow:var(--shadow);
+}
+.map-svg{width:100%;height:100%}
+.truck-dot{fill:var(--g700);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25))}
+.truck-pulse{fill:var(--g500);opacity:0.4;animation:truckPulse 1.5s infinite}
+@keyframes truckPulse{0%,100%{r:8;opacity:0.4}50%{r:16;opacity:0}}
+.route-path{stroke:var(--g600);stroke-width:3;stroke-dasharray:8 4;fill:none;stroke-linecap:round}
+.building{fill:#C8E6C9;stroke:#A5D6A7;stroke-width:1;rx:4}
+.park{fill:#81C784;rx:6}
+.road{fill:#E0E0E0}
+.water{fill:#81D4FA}
+
+.bins-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 16px;margin-bottom:12px}
+.bin-card{padding:12px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);text-align:center}
+.bin-card .icon-box{width:36px;height:36px;margin:0 auto 4px;border-radius:10px}
+.bin-card .icon-box i{width:18px;height:18px}
+.bin-card h5{font-size:10px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.bin-level{height:44px;width:24px;border-radius:6px;margin:0 auto;position:relative;overflow:hidden}
+.bin-level-bg{position:absolute;inset:0;border-radius:6px;border:2px solid}
+.bin-level-fill{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 4px 4px;transition:height 1.2s cubic-bezier(.4,0,.2,1)}
+.bin-pct{font-size:13px;font-weight:800;margin-top:4px}
+
+.schedule-card{margin:0 16px 80px;padding:14px;border-radius:18px;background:var(--card);box-shadow:var(--shadow)}
+.schedule-card h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.schedule-card h3 i{width:16px;height:16px;color:var(--g600)}
+.sched-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--g100)}
+.sched-row:last-child{border:none}
+.sched-day{width:32px;font-size:11px;font-weight:700;color:var(--text)}
+.sched-type{flex:1}
+.sched-time{font-size:10px;color:var(--text3);font-weight:500}
+
+/* ═══════ REPORT ═══════ */
+.report-header{padding:14px 20px}
+.report-header h2{font-size:19px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
+.report-header h2 i{width:22px;height:22px;color:var(--g600)}
+.report-header p{font-size:12px;color:var(--text3);margin-top:3px}
+
+.camera-area{
+  margin:0 16px 12px;height:170px;border-radius:18px;
+  background:linear-gradient(135deg,#2d2d3a,#1a1a2e);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;overflow:hidden;transition:all .3s;
+}
+.camera-area:active{transform:scale(.98)}
+.camera-area .cam-icon{color:rgba(255,255,255,0.3)}
+.camera-area .cam-icon i{width:44px;height:44px}
+.camera-area p{color:rgba(255,255,255,0.4);font-size:12px;margin-top:6px}
+.camera-area.captured .cam-overlay{display:none}
+.cam-flash{position:absolute;inset:0;background:white;opacity:0;pointer-events:none;transition:opacity .1s}
+.cam-flash.flash{opacity:1}
+.cam-overlay{position:relative;z-index:1;text-align:center}
+.fake-photo{width:100%;height:100%;border-radius:18px;
+  background:linear-gradient(180deg,#87CEEB 0%,#87CEEB 40%,#A8D5A2 40%,#A8D5A2 55%,#C4A882 55%);
+  position:relative;display:none}
+.fake-photo::after{content:'Reported';position:absolute;bottom:10px;right:10px;
+  background:var(--coral);color:white;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;
+  display:flex;align-items:center;gap:4px}
+.camera-area.captured .fake-photo{display:block}
+
+.geo-tag{
+  margin:0 16px 12px;padding:10px 14px;border-radius:14px;
+  background:var(--card);box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:10px;
+}
+.geo-tag .icon-box{width:32px;height:32px;border-radius:10px;background:var(--g200)}
+.geo-tag .icon-box i{width:16px;height:16px;color:var(--g700)}
+.geo-tag .geo-text{font-size:11px;color:var(--text2)}
+.geo-tag .geo-text strong{color:var(--text);display:block;font-size:10px;font-weight:600}
+
+.report-form{margin:0 16px 12px}
+.form-group{margin-bottom:10px}
+.form-group label{font-size:11px;font-weight:600;color:var(--text);display:block;margin-bottom:5px}
+.form-select,.form-textarea{
+  width:100%;padding:10px 12px;border-radius:12px;border:1.5px solid var(--g200);
+  font-family:inherit;font-size:12px;color:var(--text);background:var(--card);
+  outline:none;transition:border-color .2s;
+}
+.form-select:focus,.form-textarea:focus{border-color:var(--g500)}
+.form-textarea{resize:none;height:60px}
+
+.reports-feed{margin:0 16px 80px}
+.reports-feed h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
+.report-item{
+  padding:10px;border-radius:14px;background:var(--card);
+  box-shadow:var(--shadow);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.report-thumb{width:40px;height:40px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.report-thumb i{width:18px;height:18px}
+.report-detail{flex:1}
+.report-detail h4{font-size:12px;font-weight:600;color:var(--text)}
+.report-detail p{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* ═══════ PROFILE ═══════ */
+.profile-header{
+  text-align:center;padding:14px 20px 22px;
+  background:linear-gradient(160deg,var(--g800),var(--g700));
+  border-radius:0 0 28px 28px;color:white;
+}
+.avatar{
+  width:68px;height:68px;border-radius:50%;
+  background:linear-gradient(135deg,var(--g400),var(--g300));
+  margin:0 auto 8px;display:flex;align-items:center;justify-content:center;
+  border:3px solid rgba(255,255,255,0.2);
+}
+.avatar i{width:32px;height:32px;color:var(--g800)}
+.profile-header h2{font-size:18px;font-weight:800}
+.profile-header p{font-size:11px;opacity:0.65;margin-top:2px}
+.champion-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:20px;
+  background:linear-gradient(135deg,#FFD166,#F4A261);
+  color:#5D3A00;font-size:11px;font-weight:700;margin-top:8px;
+}
+.champion-badge i{width:14px;height:14px}
+
+.profile-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
+  padding:0 16px;margin-top:-14px;position:relative;z-index:2}
+.p-stat{padding:12px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);text-align:center}
+.p-stat .icon-box{width:36px;height:36px;border-radius:10px;margin:0 auto 5px}
+.p-stat .icon-box i{width:18px;height:18px}
+.p-stat .p-stat-num{font-size:20px;font-weight:800;color:var(--text)}
+.p-stat .p-stat-label{font-size:9px;color:var(--text3);margin-top:2px}
+
+.info-card{margin:10px 16px;padding:12px 14px;border-radius:16px;
+  background:var(--card);box-shadow:var(--shadow);display:flex;align-items:center;gap:10px}
+.info-card .icon-box{width:38px;height:38px;border-radius:10px}
+.info-card .icon-box i{width:18px;height:18px}
+.info-card-text h4{font-size:12px;font-weight:600;color:var(--text)}
+.info-card-text p{font-size:10px;color:var(--text3);margin-top:1px}
+
+.profile-menu{margin:10px 16px 80px}
+.menu-item{
+  padding:12px 14px;border-radius:14px;background:var(--card);
+  box-shadow:var(--shadow);margin-bottom:6px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;
+}
+.menu-item:active{transform:scale(.98);background:var(--g100)}
+.menu-item .icon-box{width:32px;height:32px;border-radius:8px}
+.menu-item .icon-box i{width:16px;height:16px}
+.menu-item span{flex:1;font-size:12px;font-weight:600;color:var(--text)}
+.menu-item .mi-arrow i{width:16px;height:16px;color:var(--text3)}
+
+/* ═══════ OVERLAYS ═══════ */
+.overlay{
+  position:absolute;inset:0;z-index:80;background:var(--bg);
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;scrollbar-width:none;
+}
+.overlay::-webkit-scrollbar{display:none}
+.overlay.open{transform:translateY(0)}
+.overlay-head{
+  display:flex;align-items:center;gap:10px;padding:52px 20px 14px;
+  position:sticky;top:0;background:var(--bg);z-index:5;
+}
+.overlay-back{
+  width:34px;height:34px;border-radius:10px;background:var(--card);
+  display:flex;align-items:center;justify-content:center;
+  border:none;cursor:pointer;box-shadow:var(--shadow);
+}
+.overlay-back i{width:18px;height:18px;color:var(--text)}
+.overlay-head h2{font-size:17px;font-weight:800;color:var(--text)}
+
+/* Lesson */
+.lesson-content{padding:0 20px 40px}
+.lesson-slide{
+  min-height:180px;border-radius:var(--radius);padding:20px;
+  background:var(--card);box-shadow:var(--shadow);margin-bottom:14px;text-align:center;
+}
+.lesson-slide .ls-icon{width:56px;height:56px;border-radius:16px;display:flex;
+  align-items:center;justify-content:center;margin:0 auto 14px;background:var(--g200)}
+.lesson-slide .ls-icon i{width:28px;height:28px;color:var(--g700)}
+.lesson-slide h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px}
+.lesson-slide p{font-size:12px;color:var(--text2);line-height:1.6}
+.lesson-nav{display:flex;gap:8px;padding:0 20px}
+.lesson-dots{display:flex;gap:5px;justify-content:center;margin:14px 0}
+.lesson-dot{width:8px;height:8px;border-radius:50%;background:var(--g300);transition:all .3s}
+.lesson-dot.active{width:24px;border-radius:4px;background:var(--g600)}
+
+/* Quiz */
+.quiz-content{padding:0 20px 40px}
+.quiz-q{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.5}
+.quiz-option{
+  padding:12px 14px;border-radius:14px;background:var(--card);
+  box-shadow:var(--shadow);margin-bottom:8px;cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  border:2px solid transparent;transition:all .2s;font-size:13px;color:var(--text);
+}
+.quiz-option:hover{border-color:var(--g400)}
+.quiz-option.correct{border-color:var(--g600);background:var(--g200)}
+.quiz-option.wrong{border-color:var(--coral);background:#FFEBEE}
+.quiz-option .opt-letter{
+  width:30px;height:30px;border-radius:8px;background:var(--g100);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:12px;color:var(--g700);flex-shrink:0;
+}
+
+/* Rewards */
+.rewards-balance{
+  margin:0 20px 14px;padding:18px;border-radius:var(--radius);
+  background:linear-gradient(135deg,#FFD166,#F4A261);text-align:center;
+  box-shadow:0 4px 16px rgba(244,162,97,0.25);
+}
+.rewards-balance .rb-icon{margin-bottom:6px}
+.rewards-balance .rb-icon i{width:28px;height:28px;color:#5D3A00}
+.rewards-balance .rb-pts{font-size:38px;font-weight:900;color:#5D3A00}
+.rewards-balance .rb-label{font-size:11px;color:#8B6914;margin-top:2px;font-weight:600}
+.tier-section{padding:0 20px;margin-bottom:14px}
+.tier-section h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px}
+.tier-bar{height:6px;border-radius:6px;background:var(--g200);position:relative}
+.tier-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--g600),var(--g400));transition:width 1.2s ease}
+.tier-labels{display:flex;justify-content:space-between;margin-top:5px}
+.tier-labels span{font-size:9px;color:var(--text3);font-weight:500}
+.rewards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 20px;margin-bottom:80px}
+.reward-card{padding:14px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;cursor:pointer;transition:all .2s}
+.reward-card:active{transform:scale(.96)}
+.reward-card .icon-box{width:48px;height:48px;border-radius:14px;margin:0 auto 8px}
+.reward-card .icon-box i{width:24px;height:24px}
+.reward-card h4{font-size:11px;font-weight:600;color:var(--text)}
+.reward-card .rw-pts{font-size:11px;color:var(--orange);font-weight:700;margin-top:3px}
+
+/* Facilities */
+.facility-filters{display:flex;gap:6px;padding:0 20px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.facility-filters::-webkit-scrollbar{display:none}
+.filter-chip{
+  padding:7px 12px;border-radius:20px;border:1.5px solid var(--g300);
+  background:var(--card);font-size:11px;font-weight:600;color:var(--text2);
+  white-space:nowrap;cursor:pointer;transition:all .2s;font-family:inherit;
+}
+.filter-chip.active{background:var(--g700);color:white;border-color:var(--g700)}
+.facility-list{padding:0 20px 80px}
+.facility-item{
+  padding:12px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.facility-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.facility-icon i{width:20px;height:20px}
+.facility-info{flex:1}
+.facility-info h4{font-size:12px;font-weight:600;color:var(--text)}
+.facility-info p{font-size:10px;color:var(--text3);margin-top:1px}
+.facility-dist{font-size:11px;font-weight:700;color:var(--g700);white-space:nowrap}
+
+/* Shop */
+.shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 20px;margin-bottom:80px}
+.shop-card{padding:14px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;position:relative}
+.shop-card .icon-box{width:52px;height:52px;border-radius:14px;margin:0 auto 8px}
+.shop-card .icon-box i{width:26px;height:26px}
+.shop-card h4{font-size:12px;font-weight:600;color:var(--text)}
+.shop-card .shop-price{font-size:13px;font-weight:800;color:var(--g700);margin-top:3px}
+.shop-add{
+  width:30px;height:30px;border-radius:8px;
+  background:var(--g600);color:white;border:none;cursor:pointer;
+  margin-top:6px;transition:all .2s;display:flex;align-items:center;justify-content:center;
+  margin-left:auto;margin-right:auto;
+}
+.shop-add i{width:16px;height:16px}
+.shop-add:active{transform:scale(.85)}
+.cart-badge{
+  position:absolute;top:8px;right:8px;
+  width:20px;height:20px;border-radius:50%;background:var(--coral);
+  color:white;font-size:9px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  transform:scale(0);transition:transform .3s cubic-bezier(.68,-.55,.27,1.55);
+}
+.cart-badge.show{transform:scale(1)}
+
+/* ═══════ SUCCESS + CONFETTI ═══════ */
+.success-modal{
+  position:absolute;inset:0;z-index:150;
+  background:rgba(27,67,50,0.85);backdrop-filter:blur(8px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.success-modal.show{opacity:1;pointer-events:auto}
+.success-check{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--g500),var(--g300));
+  display:flex;align-items:center;justify-content:center;
+  transform:scale(0);transition:transform .5s cubic-bezier(.68,-.55,.27,1.55);
+}
+.success-check i{width:36px;height:36px;color:white}
+.success-modal.show .success-check{transform:scale(1)}
+.success-modal h2{color:white;font-size:20px;font-weight:800;margin-top:16px}
+.success-modal p{color:var(--g300);font-size:13px;margin-top:6px}
+
+.confetti-container{position:absolute;inset:0;pointer-events:none;z-index:160;overflow:hidden}
+.confetti-piece{position:absolute;width:8px;height:8px;top:-10px;animation:confettiFall 3s ease-in forwards}
+@keyframes confettiFall{0%{transform:translateY(0)rotate(0);opacity:1}100%{transform:translateY(900px)rotate(720deg);opacity:0}}
+
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.particle{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--g400);opacity:0.12;animation:float 6s infinite ease-in-out}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-25px)}}
+
+@media(max-width:420px){
+  body{align-items:flex-start;background:var(--bg)}
+  .phone{width:100vw;height:100vh;height:100dvh;border-radius:0;box-shadow:none}
+  .phone::before{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="phone" id="app">
+  <!-- SPLASH -->
+  <div class="splash" id="splash">
+    <div class="splash-logo"><i data-lucide="leaf"></i></div>
+    <h1>SwachhApp</h1>
+    <p>Smart Waste Management</p>
+    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <span id="statusTime">9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i data-lucide="wifi" style="width:14px;height:14px"></i>
+      <i data-lucide="battery-full" style="width:14px;height:14px"></i>
+    </div>
+  </div>
+
+  <!-- PAGES -->
+  <div class="pages" id="pagesContainer">
+
+    <!-- HOME -->
+    <div class="page active" id="pageHome">
+      <div class="particles" id="particles"></div>
+      <div class="home-header ani">
+        <div class="greeting">
+          <div>
+            <h2>Hi, Ashish <i data-lucide="leaf" style="width:18px;height:18px;display:inline;vertical-align:middle;color:var(--g300)"></i></h2>
+            <div class="date" id="todayDate"></div>
+          </div>
+          <button class="notif-btn" onclick="showOverlay('rewards')">
+            <i data-lucide="bell"></i>
+            <div class="notif-dot"></div>
+          </button>
+        </div>
+        <div class="score-section">
+          <div class="score-ring-wrap">
+            <svg class="score-ring" width="120" height="120" viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="52"/>
+              <circle class="ring-fill" id="scoreRing" cx="60" cy="60" r="52"/>
+            </svg>
+            <div class="score-value">
+              <span class="num" id="scoreNum">0</span>
+              <span class="label">Green Score</span>
+            </div>
+          </div>
+          <div class="score-info">
+            <p class="tip">Your waste segregation<br>rate is <strong>94%</strong> this month!</p>
+            <span class="badge" style="color:white;background:rgba(255,255,255,0.15)"><i data-lucide="trending-up" style="width:12px;height:12px;display:inline;vertical-align:middle"></i> 12% vs last month</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card ani">
+          <div class="stat-icon" style="background:var(--g200)"><i data-lucide="trash-2" style="width:16px;height:16px;color:var(--g700)"></i></div>
+          <div class="stat-num" data-count="342">0</div>
+          <div class="stat-label">kg Segregated</div>
+        </div>
+        <div class="stat-card ani">
+          <div class="stat-icon" style="background:#FFF3E0"><i data-lucide="sprout" style="width:16px;height:16px;color:var(--orange)"></i></div>
+          <div class="stat-num" data-count="28">0</div>
+          <div class="stat-label">kg Compost</div>
+        </div>
+        <div class="stat-card ani">
+          <div class="stat-icon" style="background:#E3F2FD"><i data-lucide="star" style="width:16px;height:16px;color:var(--blue)"></i></div>
+          <div class="stat-num" data-count="1250">0</div>
+          <div class="stat-label">Green Points</div>
+        </div>
+      </div>
+
+      <div class="ai-card ani" style="margin:12px 16px">
+        <div class="ai-head">
+          <div class="icon-box"><i data-lucide="bot" style="width:14px;height:14px;color:var(--coral)"></i></div>
+          <span>AI Assistant</span>
+        </div>
+        <p>Great job! Your composting output increased by <strong style="color:var(--g700)">18%</strong> this week. Try adding more dry leaves to speed up decomposition.</p>
+        <div style="margin-top:8px">
+          <button class="btn btn-secondary" style="padding:7px 14px;font-size:11px" onclick="showOverlay('lesson')">View Tip <i data-lucide="arrow-right" style="width:12px;height:12px"></i></button>
+        </div>
+      </div>
+
+      <div class="section-title">Quick Actions</div>
+      <div class="quick-actions">
+        <button class="qa-btn ani" onclick="switchTab(3)">
+          <div class="qa-icon" style="background:var(--g200)"><i data-lucide="camera" style="color:var(--g700)"></i></div>
+          <span>Report</span>
+        </button>
+        <button class="qa-btn ani" onclick="switchTab(2)">
+          <div class="qa-icon" style="background:#E3F2FD"><i data-lucide="truck" style="color:var(--blue)"></i></div>
+          <span>Track</span>
+        </button>
+        <button class="qa-btn ani" onclick="showOverlay('shop')">
+          <div class="qa-icon" style="background:#FFF3E0"><i data-lucide="shopping-bag" style="color:var(--orange)"></i></div>
+          <span>Shop</span>
+        </button>
+        <button class="qa-btn ani" onclick="showOverlay('rewards')">
+          <div class="qa-icon" style="background:#F3E5F5"><i data-lucide="trophy" style="color:var(--purple)"></i></div>
+          <span>Rewards</span>
+        </button>
+      </div>
+
+      <div class="link-card ani" onclick="showOverlay('facilities')">
+        <div class="icon-box" style="background:var(--g200)"><i data-lucide="map-pin" style="width:20px;height:20px;color:var(--g700)"></i></div>
+        <div class="link-card-text">
+          <h4>Waste Facilities Near You</h4>
+          <p>Recycling centres, W-to-E plants & scrap shops</p>
+        </div>
+        <div class="arrow"><i data-lucide="chevron-right"></i></div>
+      </div>
+
+      <div class="link-card ani">
+        <div class="icon-box" style="background:#FFF3E0"><i data-lucide="users" style="width:20px;height:20px;color:var(--orange)"></i></div>
+        <div class="link-card-text">
+          <h4>Community Clean-up Drive</h4>
+          <p>Sunday, 8:00 AM · Central Park, Sector 14</p>
+        </div>
+        <div class="arrow"><i data-lucide="chevron-right"></i></div>
+      </div>
+      <div style="height:12px"></div>
+    </div>
+
+    <!-- LEARN -->
+    <div class="page" id="pageLearn">
+      <div class="learn-header">
+        <h2><i data-lucide="book-open"></i> Training Centre</h2>
+        <div class="learn-progress ani">
+          <div class="learn-ring-wrap">
+            <svg class="learn-ring" width="90" height="90" viewBox="0 0 90 90">
+              <circle class="lring-bg" cx="45" cy="45" r="38"/>
+              <circle class="lring-fill" id="learnRing" cx="45" cy="45" r="38"/>
+            </svg>
+            <div class="learn-ring-val">
+              <span class="num">78</span>
+              <span class="pct">% done</span>
+            </div>
+          </div>
+          <div class="learn-stats">
+            <div class="learn-stat"><div class="dot" style="background:var(--g600)"></div><span><strong>14</strong> Completed</span></div>
+            <div class="learn-stat"><div class="dot" style="background:var(--orange)"></div><span><strong>4</strong> In Progress</span></div>
+            <div class="learn-stat"><div class="dot" style="background:var(--g300)"></div><span><strong>6</strong> Remaining</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Your Courses</div>
+
+      <div class="course-card ani" onclick="showOverlay('lesson')">
+        <div class="course-icon" style="background:var(--g200)"><i data-lucide="trash-2" style="color:var(--g700)"></i></div>
+        <div class="course-info">
+          <h4>Waste Segregation 101</h4>
+          <p>12 lessons · Certificate</p>
+          <div class="course-meta">
+            <div class="course-progress"><div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--g600)"></div></div></div>
+            <span class="badge badge-green"><i data-lucide="check" style="width:10px;height:10px"></i> Done</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card ani" onclick="showOverlay('lesson')">
+        <div class="course-icon" style="background:#FFF3E0"><i data-lucide="sprout" style="color:var(--orange)"></i></div>
+        <div class="course-info">
+          <h4>Home Composting</h4>
+          <p>8 lessons · Hands-on</p>
+          <div class="course-meta">
+            <div class="course-progress"><div class="progress-bar"><div class="progress-fill" style="width:75%;background:var(--orange)"></div></div></div>
+            <span class="badge badge-orange">6/8</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card ani" onclick="showOverlay('lesson')">
+        <div class="course-icon" style="background:#E3F2FD"><i data-lucide="recycle" style="color:var(--blue)"></i></div>
+        <div class="course-info">
+          <h4>Plastic Reuse & Recycling</h4>
+          <p>10 lessons · Video</p>
+          <div class="course-meta">
+            <div class="course-progress"><div class="progress-bar"><div class="progress-fill" style="width:30%;background:var(--blue)"></div></div></div>
+            <span class="badge badge-blue">3/10</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card ani" onclick="showOverlay('quiz')">
+        <div class="course-icon" style="background:#FFEBEE"><i data-lucide="alert-triangle" style="color:var(--coral)"></i></div>
+        <div class="course-info">
+          <h4>Hazardous Waste Safety</h4>
+          <p>6 lessons · Quiz</p>
+          <div class="course-meta">
+            <div class="course-progress"><div class="progress-bar"><div class="progress-fill" style="width:50%;background:var(--coral)"></div></div></div>
+            <span class="badge badge-red">3/6</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lb-section ani">
+        <h3><i data-lucide="trophy"></i> Leaderboard — Green Champions</h3>
+        <div class="lb-row"><div class="lb-rank gold">1</div><div class="lb-name">Priya Sharma</div><div class="lb-pts">2,450 pts</div></div>
+        <div class="lb-row"><div class="lb-rank silver">2</div><div class="lb-name">Rahul Verma</div><div class="lb-pts">2,180 pts</div></div>
+        <div class="lb-row"><div class="lb-rank bronze">3</div><div class="lb-name">Ashish Kumar</div><div class="lb-pts">1,920 pts</div></div>
+        <div class="lb-row"><div class="lb-rank" style="background:var(--g700);color:white">4</div><div class="lb-name">Meera Patel</div><div class="lb-pts">1,750 pts</div></div>
+        <div class="lb-row"><div class="lb-rank" style="background:var(--g700);color:white">5</div><div class="lb-name">Arjun Singh</div><div class="lb-pts">1,680 pts</div></div>
+      </div>
+    </div>
+
+    <!-- TRACK -->
+    <div class="page" id="pageTrack">
+      <div class="track-header"><h2><i data-lucide="truck"></i> Waste Collection</h2></div>
+
+      <div class="pickup-card ani">
+        <div class="pickup-info">
+          <div class="icon-box" style="width:40px;height:40px;background:rgba(255,255,255,0.15);border-radius:12px"><i data-lucide="clock" style="width:20px;height:20px;color:white"></i></div>
+          <div class="pickup-text">
+            <h4>Next Pickup</h4>
+            <div class="pickup-time">Today, 10:30 AM</div>
+          </div>
+        </div>
+        <div class="pickup-countdown">
+          <div class="cd-val" id="countdown">2:15</div>
+          <div class="cd-label">hours left</div>
+        </div>
+      </div>
+
+      <div class="map-container ani">
+        <svg class="map-svg" viewBox="0 0 350 200">
+          <rect class="road" x="0" y="85" width="350" height="30"/>
+          <rect class="road" x="80" y="0" width="25" height="200"/>
+          <rect class="road" x="180" y="0" width="25" height="200"/>
+          <rect class="road" x="270" y="0" width="25" height="200"/>
+          <rect class="road" x="0" y="150" width="350" height="25"/>
+          <rect class="building" x="15" y="20" width="50" height="50"/>
+          <rect class="building" x="15" y="120" width="50" height="22"/>
+          <rect class="building" x="115" y="15" width="50" height="55"/>
+          <rect class="building" x="115" y="125" width="50" height="18"/>
+          <rect class="building" x="215" y="20" width="40" height="50"/>
+          <rect class="building" x="215" y="125" width="40" height="18"/>
+          <rect class="building" x="305" y="15" width="35" height="55"/>
+          <rect class="building" x="305" y="125" width="35" height="18"/>
+          <rect class="park" x="120" y="155" width="45" height="16"/>
+          <rect class="park" x="305" y="155" width="35" height="16"/>
+          <path class="water" d="M0 185 Q60 178 120 188 Q200 195 280 182 Q320 179 350 185 L350 200 L0 200Z"/>
+          <path class="route-path" d="M30 95 L92 95 L92 30 L192 30 L192 95 L282 95 L282 160 L192 160 L92 160"/>
+          <circle class="truck-pulse" id="truckPulse" cx="30" cy="95" r="8"/>
+          <circle class="truck-dot" id="truckDot" cx="30" cy="95" r="6"/>
+          <text x="30" y="48" fill="#2D6A4F" font-size="7" font-weight="700" font-family="Inter">Block A</text>
+          <text x="130" y="48" fill="#2D6A4F" font-size="7" font-weight="700" font-family="Inter">Block B</text>
+          <text x="225" y="48" fill="#2D6A4F" font-size="7" font-weight="700" font-family="Inter">Block C</text>
+        </svg>
+      </div>
+
+      <div class="section-title">Bin Status</div>
+      <div class="bins-row">
+        <div class="bin-card ani">
+          <div class="icon-box" style="width:36px;height:36px;background:var(--g200);border-radius:10px;margin:0 auto 4px"><i data-lucide="apple" style="width:16px;height:16px;color:#4CAF50"></i></div>
+          <h5>Wet Waste</h5>
+          <div class="bin-level"><div class="bin-level-bg" style="border-color:#4CAF50"></div><div class="bin-level-fill" style="background:#4CAF50;height:0%" data-fill="60"></div></div>
+          <div class="bin-pct" style="color:#4CAF50">60%</div>
+        </div>
+        <div class="bin-card ani">
+          <div class="icon-box" style="width:36px;height:36px;background:#E3F2FD;border-radius:10px;margin:0 auto 4px"><i data-lucide="package" style="width:16px;height:16px;color:#2196F3"></i></div>
+          <h5>Dry Waste</h5>
+          <div class="bin-level"><div class="bin-level-bg" style="border-color:#2196F3"></div><div class="bin-level-fill" style="background:#2196F3;height:0%" data-fill="85"></div></div>
+          <div class="bin-pct" style="color:#2196F3">85%</div>
+        </div>
+        <div class="bin-card ani">
+          <div class="icon-box" style="width:36px;height:36px;background:#FFEBEE;border-radius:10px;margin:0 auto 4px"><i data-lucide="alert-triangle" style="width:16px;height:16px;color:#F44336"></i></div>
+          <h5>Hazardous</h5>
+          <div class="bin-level"><div class="bin-level-bg" style="border-color:#F44336"></div><div class="bin-level-fill" style="background:#F44336;height:0%" data-fill="20"></div></div>
+          <div class="bin-pct" style="color:#F44336">20%</div>
+        </div>
+      </div>
+
+      <div class="schedule-card ani">
+        <h3><i data-lucide="calendar"></i> Collection Schedule</h3>
+        <div class="sched-row"><div class="sched-day">Mon</div><div class="sched-type"><span class="badge badge-green">Wet Waste</span></div><div class="sched-time">7:00 AM</div></div>
+        <div class="sched-row"><div class="sched-day">Tue</div><div class="sched-type"><span class="badge badge-blue">Dry Waste</span></div><div class="sched-time">7:00 AM</div></div>
+        <div class="sched-row"><div class="sched-day">Wed</div><div class="sched-type"><span class="badge badge-green">Wet Waste</span></div><div class="sched-time">7:00 AM</div></div>
+        <div class="sched-row"><div class="sched-day">Thu</div><div class="sched-type"><span class="badge badge-blue">Dry Waste</span></div><div class="sched-time">7:00 AM</div></div>
+        <div class="sched-row"><div class="sched-day">Fri</div><div class="sched-type"><span class="badge badge-green">Wet Waste</span></div><div class="sched-time">7:00 AM</div></div>
+        <div class="sched-row"><div class="sched-day">Sat</div><div class="sched-type"><span class="badge badge-red">Hazardous</span></div><div class="sched-time">9:00 AM</div></div>
+      </div>
+    </div>
+
+    <!-- REPORT -->
+    <div class="page" id="pageReport">
+      <div class="report-header">
+        <h2><i data-lucide="camera"></i> Report Dumping</h2>
+        <p>See waste? Snap & report. Your city counts on you.</p>
+      </div>
+
+      <div class="camera-area ani" id="cameraArea" onclick="capturePhoto()">
+        <div class="cam-overlay">
+          <div class="cam-icon"><i data-lucide="camera"></i></div>
+          <p>Tap to capture photo</p>
+        </div>
+        <div class="fake-photo"></div>
+        <div class="cam-flash" id="camFlash"></div>
+      </div>
+
+      <div class="geo-tag ani">
+        <div class="icon-box" style="width:32px;height:32px;background:var(--g200);border-radius:10px"><i data-lucide="map-pin" style="width:16px;height:16px;color:var(--g700)"></i></div>
+        <div class="geo-text">
+          <strong>Auto Geo-tagged Location</strong>
+          28.6139°N, 77.2090°E — Sector 14, Gurugram
+        </div>
+      </div>
+
+      <div class="report-form ani">
+        <div class="form-group">
+          <label>Category</label>
+          <select class="form-select">
+            <option>Open Dumping</option><option>Drain Blockage</option><option>Burning Waste</option><option>Overflowing Bin</option><option>Construction Debris</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-textarea" placeholder="Describe the issue...">Waste dumped near park entrance, mostly plastic and food waste. Needs immediate attention.</textarea>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="submitReport()"><i data-lucide="send" style="width:16px;height:16px"></i> Submit Report</button>
+      </div>
+
+      <div class="reports-feed ani">
+        <h3>Recent Reports</h3>
+        <div class="report-item">
+          <div class="report-thumb" style="background:#E8F5E9"><i data-lucide="check-circle" style="color:var(--g700)"></i></div>
+          <div class="report-detail"><h4>Open Dumping — Sector 7</h4><p>Resolved · 2 days ago</p></div>
+          <span class="badge badge-green">Resolved</span>
+        </div>
+        <div class="report-item">
+          <div class="report-thumb" style="background:#FFF3E0"><i data-lucide="refresh-cw" style="color:var(--orange)"></i></div>
+          <div class="report-detail"><h4>Overflowing Bin — Market Rd</h4><p>Assigned · 5 hours ago</p></div>
+          <span class="badge badge-orange">Assigned</span>
+        </div>
+        <div class="report-item">
+          <div class="report-thumb" style="background:#E3F2FD"><i data-lucide="clock" style="color:var(--blue)"></i></div>
+          <div class="report-detail"><h4>Drain Blockage — Lane 4</h4><p>Pending · Just now</p></div>
+          <span class="badge badge-blue">Pending</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page" id="pageProfile">
+      <div class="profile-header ani">
+        <div class="avatar"><i data-lucide="user"></i></div>
+        <h2>Ashish Kumar</h2>
+        <p>Sector 14, Gurugram · Ward 23</p>
+        <div class="champion-badge"><i data-lucide="award"></i> Green Champion — Level 5</div>
+      </div>
+
+      <div class="profile-stats">
+        <div class="p-stat ani">
+          <div class="icon-box" style="width:36px;height:36px;background:var(--g200);border-radius:10px;margin:0 auto 5px"><i data-lucide="recycle" style="width:18px;height:18px;color:var(--g700)"></i></div>
+          <div class="p-stat-num" data-count="342">0</div>
+          <div class="p-stat-label">kg Waste Reduced</div>
+        </div>
+        <div class="p-stat ani">
+          <div class="icon-box" style="width:36px;height:36px;background:#E8F5E9;border-radius:10px;margin:0 auto 5px"><i data-lucide="tree-pine" style="width:18px;height:18px;color:#4CAF50"></i></div>
+          <div class="p-stat-num" data-count="12">0</div>
+          <div class="p-stat-label">Trees Saved</div>
+        </div>
+        <div class="p-stat ani">
+          <div class="icon-box" style="width:36px;height:36px;background:#E3F2FD;border-radius:10px;margin:0 auto 5px"><i data-lucide="wind" style="width:18px;height:18px;color:var(--blue)"></i></div>
+          <div class="p-stat-num" data-count="89">0</div>
+          <div class="p-stat-label">kg CO₂ Offset</div>
+        </div>
+        <div class="p-stat ani">
+          <div class="icon-box" style="width:36px;height:36px;background:#F3E5F5;border-radius:10px;margin:0 auto 5px"><i data-lucide="bar-chart-3" style="width:18px;height:18px;color:var(--purple)"></i></div>
+          <div class="p-stat-num">#14</div>
+          <div class="p-stat-label">Area Rank</div>
+        </div>
+      </div>
+
+      <div class="info-card ani">
+        <div class="icon-box" style="width:38px;height:38px;background:#E8F5E9;border-radius:10px"><i data-lucide="shield-check" style="width:18px;height:18px;color:var(--g700)"></i></div>
+        <div class="info-card-text"><h4>Compliance: All Clear</h4><p>No violations · Source segregation 94%</p></div>
+      </div>
+      <div class="info-card ani" style="border-left:3px solid var(--orange)">
+        <div class="icon-box" style="width:38px;height:38px;background:#FFF3E0;border-radius:10px"><i data-lucide="users" style="width:18px;height:18px;color:var(--orange)"></i></div>
+        <div class="info-card-text"><h4>Area Committee — Sector 14</h4><p>12 members · Next meeting: Thu 6 PM</p></div>
+      </div>
+      <div class="info-card ani" style="background:linear-gradient(135deg,var(--g200),#E8F5E9)">
+        <div class="icon-box" style="width:38px;height:38px;background:white;border-radius:10px"><i data-lucide="calendar-check" style="width:18px;height:18px;color:var(--g700)"></i></div>
+        <div class="info-card-text"><h4>Community Clean-up</h4><p>Sunday, 8:00 AM · Central Park</p></div>
+      </div>
+
+      <div class="profile-menu">
+        <div class="menu-item ani" onclick="showOverlay('rewards')">
+          <div class="icon-box" style="background:#FFF3E0"><i data-lucide="trophy" style="width:16px;height:16px;color:var(--orange)"></i></div>
+          <span>My Rewards</span>
+          <div class="mi-arrow"><i data-lucide="chevron-right"></i></div>
+        </div>
+        <div class="menu-item ani" onclick="showOverlay('shop')">
+          <div class="icon-box" style="background:#E3F2FD"><i data-lucide="shopping-bag" style="width:16px;height:16px;color:var(--blue)"></i></div>
+          <span>Waste Utilities Shop</span>
+          <div class="mi-arrow"><i data-lucide="chevron-right"></i></div>
+        </div>
+        <div class="menu-item ani" onclick="showOverlay('facilities')">
+          <div class="icon-box" style="background:var(--g200)"><i data-lucide="factory" style="width:16px;height:16px;color:var(--g700)"></i></div>
+          <span>Nearby Facilities</span>
+          <div class="mi-arrow"><i data-lucide="chevron-right"></i></div>
+        </div>
+        <div class="menu-item ani">
+          <div class="icon-box" style="background:var(--g100)"><i data-lucide="settings" style="width:16px;height:16px;color:var(--text2)"></i></div>
+          <span>Settings</span>
+          <div class="mi-arrow"><i data-lucide="chevron-right"></i></div>
+        </div>
+        <div class="menu-item ani">
+          <div class="icon-box" style="background:#FFEBEE"><i data-lucide="phone" style="width:16px;height:16px;color:var(--coral)"></i></div>
+          <span>Helpline: 1800-180-1551</span>
+          <div class="mi-arrow"><i data-lucide="chevron-right"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ OVERLAYS ═══════ -->
+
+  <div class="overlay" id="overlayLesson">
+    <div class="overlay-head">
+      <button class="overlay-back" onclick="closeOverlay('lesson')"><i data-lucide="arrow-left"></i></button>
+      <h2>Home Composting</h2>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-dots" id="lessonDots">
+        <div class="lesson-dot active"></div><div class="lesson-dot"></div><div class="lesson-dot"></div><div class="lesson-dot"></div>
+      </div>
+      <div class="lesson-slide" id="lessonSlide">
+        <div class="ls-icon"><i data-lucide="sprout" id="lsLucideIcon"></i></div>
+        <h3 id="lsTitle">What is Composting?</h3>
+        <p id="lsText">Composting is nature's way of recycling. It transforms organic waste — kitchen scraps, garden trimmings — into nutrient-rich soil amendment called compost.</p>
+      </div>
+      <div class="lesson-nav" style="gap:8px;display:flex;padding:0 20px">
+        <button class="btn btn-secondary" style="flex:1" onclick="prevSlide()"><i data-lucide="arrow-left" style="width:14px;height:14px"></i> Previous</button>
+        <button class="btn btn-primary" style="flex:1" onclick="nextSlide()">Next <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlayQuiz">
+    <div class="overlay-head">
+      <button class="overlay-back" onclick="closeOverlay('quiz')"><i data-lucide="arrow-left"></i></button>
+      <h2>Quick Quiz</h2>
+    </div>
+    <div class="quiz-content">
+      <div style="margin-bottom:14px"><span class="badge badge-purple">Question <span id="quizNum">1</span> of 3</span></div>
+      <div class="quiz-q" id="quizQ">Which bin should you use for banana peels?</div>
+      <div id="quizOptions"></div>
+      <div style="margin-top:14px;text-align:center;display:none" id="quizNext">
+        <button class="btn btn-primary" onclick="nextQuiz()">Next Question <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlayRewards">
+    <div class="overlay-head">
+      <button class="overlay-back" onclick="closeOverlay('rewards')"><i data-lucide="arrow-left"></i></button>
+      <h2>Rewards</h2>
+    </div>
+    <div class="rewards-balance ani">
+      <div class="rb-icon"><i data-lucide="trophy"></i></div>
+      <div class="rb-pts" data-count="1250">0</div>
+      <div class="rb-label">GREEN POINTS</div>
+    </div>
+    <div class="tier-section">
+      <h3>Reward Tier: Gold</h3>
+      <div class="tier-bar"><div class="tier-fill" style="width:0%" data-width="62"></div></div>
+      <div class="tier-labels"><span>Bronze</span><span>Silver</span><span>Gold</span><span>Platinum</span></div>
+    </div>
+    <div class="section-title">Redeem Rewards</div>
+    <div class="rewards-grid">
+      <div class="reward-card ani"><div class="icon-box" style="width:48px;height:48px;background:var(--g200);border-radius:14px;margin:0 auto 8px"><i data-lucide="tree-pine" style="width:24px;height:24px;color:var(--g700)"></i></div><h4>Plant Sapling</h4><div class="rw-pts">200 pts</div></div>
+      <div class="reward-card ani"><div class="icon-box" style="width:48px;height:48px;background:#FFF3E0;border-radius:14px;margin:0 auto 8px"><i data-lucide="shopping-bag" style="width:24px;height:24px;color:var(--orange)"></i></div><h4>Eco Bag</h4><div class="rw-pts">150 pts</div></div>
+      <div class="reward-card ani"><div class="icon-box" style="width:48px;height:48px;background:#E3F2FD;border-radius:14px;margin:0 auto 8px"><i data-lucide="lightbulb" style="width:24px;height:24px;color:var(--blue)"></i></div><h4>Bill Discount</h4><div class="rw-pts">500 pts</div></div>
+      <div class="reward-card ani"><div class="icon-box" style="width:48px;height:48px;background:#F3E5F5;border-radius:14px;margin:0 auto 8px"><i data-lucide="ticket" style="width:24px;height:24px;color:var(--purple)"></i></div><h4>Movie Ticket</h4><div class="rw-pts">800 pts</div></div>
+      <div class="reward-card ani"><div class="icon-box" style="width:48px;height:48px;background:#FFF8E1;border-radius:14px;margin:0 auto 8px"><i data-lucide="coffee" style="width:24px;height:24px;color:#795548"></i></div><h4>Cafe Voucher</h4><div class="rw-pts">300 pts</div></div>
+      <div class="reward-card ani"><div class="icon-box" style="width:48px;height:48px;background:#E8EAF6;border-radius:14px;margin:0 auto 8px"><i data-lucide="smartphone" style="width:24px;height:24px;color:#3F51B5"></i></div><h4>Data Pack</h4><div class="rw-pts">400 pts</div></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlayFacilities">
+    <div class="overlay-head">
+      <button class="overlay-back" onclick="closeOverlay('facilities')"><i data-lucide="arrow-left"></i></button>
+      <h2>Facilities</h2>
+    </div>
+    <div class="facility-filters">
+      <button class="filter-chip active" onclick="filterFacility(this)">All</button>
+      <button class="filter-chip" onclick="filterFacility(this)">Recycling</button>
+      <button class="filter-chip" onclick="filterFacility(this)">W-to-E</button>
+      <button class="filter-chip" onclick="filterFacility(this)">Biogas</button>
+      <button class="filter-chip" onclick="filterFacility(this)">Scrap Shop</button>
+    </div>
+    <div class="facility-list">
+      <div class="facility-item ani"><div class="facility-icon" style="background:var(--g200)"><i data-lucide="recycle" style="color:var(--g700)"></i></div><div class="facility-info"><h4>Green Recyclers Hub</h4><p>Paper, Plastic, Glass · 5 TPD</p></div><div class="facility-dist">1.2 km</div></div>
+      <div class="facility-item ani"><div class="facility-icon" style="background:#FFF3E0"><i data-lucide="zap" style="color:var(--orange)"></i></div><div class="facility-info"><h4>Gurugram W-to-E Plant</h4><p>Waste to Energy · 100 TPD</p></div><div class="facility-dist">4.8 km</div></div>
+      <div class="facility-item ani"><div class="facility-icon" style="background:#E3F2FD"><i data-lucide="flask-conical" style="color:var(--blue)"></i></div><div class="facility-info"><h4>Bio-methanization Unit</h4><p>Wet waste processing · 20 TPD</p></div><div class="facility-dist">2.3 km</div></div>
+      <div class="facility-item ani"><div class="facility-icon" style="background:#F3E5F5"><i data-lucide="wrench" style="color:var(--purple)"></i></div><div class="facility-info"><h4>Ravi Scrap Collection</h4><p>E-waste, Metals, Plastics</p></div><div class="facility-dist">0.8 km</div></div>
+      <div class="facility-item ani"><div class="facility-icon" style="background:var(--g200)"><i data-lucide="sprout" style="color:var(--g700)"></i></div><div class="facility-info"><h4>Community Compost Site</h4><p>Organic waste · 2 TPD</p></div><div class="facility-dist">0.5 km</div></div>
+      <div class="facility-item ani"><div class="facility-icon" style="background:#FFEBEE"><i data-lucide="cpu" style="color:var(--coral)"></i></div><div class="facility-info"><h4>E-Waste Collection Point</h4><p>Electronics, Batteries, Cables</p></div><div class="facility-dist">3.1 km</div></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlayShop">
+    <div class="overlay-head">
+      <button class="overlay-back" onclick="closeOverlay('shop')"><i data-lucide="arrow-left"></i></button>
+      <h2>Waste Utilities Shop</h2>
+    </div>
+    <div class="shop-grid">
+      <div class="shop-card ani"><div class="cart-badge" id="cart1">1</div><div class="icon-box" style="width:52px;height:52px;background:var(--g200);border-radius:14px;margin:0 auto 8px"><i data-lucide="trash-2" style="width:26px;height:26px;color:var(--g700)"></i></div><h4>3-Bin Segregation Set</h4><div class="shop-price">₹799</div><button class="shop-add" onclick="addToCart('cart1')"><i data-lucide="plus"></i></button></div>
+      <div class="shop-card ani"><div class="cart-badge" id="cart2">1</div><div class="icon-box" style="width:52px;height:52px;background:#E8F5E9;border-radius:14px;margin:0 auto 8px"><i data-lucide="sprout" style="width:26px;height:26px;color:#4CAF50"></i></div><h4>Home Compost Kit</h4><div class="shop-price">₹499</div><button class="shop-add" onclick="addToCart('cart2')"><i data-lucide="plus"></i></button></div>
+      <div class="shop-card ani"><div class="cart-badge" id="cart3">1</div><div class="icon-box" style="width:52px;height:52px;background:#FFF3E0;border-radius:14px;margin:0 auto 8px"><i data-lucide="shopping-bag" style="width:26px;height:26px;color:var(--orange)"></i></div><h4>Bio-degradable Bags</h4><div class="shop-price">₹199</div><button class="shop-add" onclick="addToCart('cart3')"><i data-lucide="plus"></i></button></div>
+      <div class="shop-card ani"><div class="cart-badge" id="cart4">1</div><div class="icon-box" style="width:52px;height:52px;background:#E3F2FD;border-radius:14px;margin:0 auto 8px"><i data-lucide="hand" style="width:26px;height:26px;color:var(--blue)"></i></div><h4>Safety Gloves</h4><div class="shop-price">₹149</div><button class="shop-add" onclick="addToCart('cart4')"><i data-lucide="plus"></i></button></div>
+      <div class="shop-card ani"><div class="cart-badge" id="cart5">1</div><div class="icon-box" style="width:52px;height:52px;background:#F3E5F5;border-radius:14px;margin:0 auto 8px"><i data-lucide="container" style="width:26px;height:26px;color:var(--purple)"></i></div><h4>Kitchen Waste Pail</h4><div class="shop-price">₹349</div><button class="shop-add" onclick="addToCart('cart5')"><i data-lucide="plus"></i></button></div>
+      <div class="shop-card ani"><div class="cart-badge" id="cart6">1</div><div class="icon-box" style="width:52px;height:52px;background:#FFF8E1;border-radius:14px;margin:0 auto 8px"><i data-lucide="flower-2" style="width:26px;height:26px;color:#795548"></i></div><h4>Garden Tool Kit</h4><div class="shop-price">₹599</div><button class="shop-add" onclick="addToCart('cart6')"><i data-lucide="plus"></i></button></div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="success-modal" id="successModal">
+    <div class="success-check"><i data-lucide="check" style="width:36px;height:36px;color:white"></i></div>
+    <h2 id="successTitle">Report Submitted!</h2>
+    <p id="successText">Report #1247 has been logged successfully</p>
+    <div class="confetti-container" id="confettiBox"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab(0)" data-tab="0">
+      <i data-lucide="home"></i><span>Home</span>
+    </button>
+    <button class="nav-item" onclick="switchTab(1)" data-tab="1">
+      <i data-lucide="book-open"></i><span>Learn</span>
+    </button>
+    <button class="nav-item" onclick="switchTab(2)" data-tab="2">
+      <i data-lucide="map-pin"></i><span>Track</span>
+    </button>
+    <button class="nav-item" onclick="switchTab(3)" data-tab="3">
+      <i data-lucide="camera"></i><span>Report</span>
+    </button>
+    <button class="nav-item" onclick="switchTab(4)" data-tab="4">
+      <i data-lucide="user"></i><span>Profile</span>
+    </button>
+  </div>
+</div>
+
+<script>
+// ponytail: all demo data hardcoded, no persistence
+lucide.createIcons();
+
+const pages = ['pageHome','pageLearn','pageTrack','pageReport','pageProfile'];
+let currentTab = 0;
+
+// ─── SPLASH ───
+setTimeout(() => document.getElementById('splash').classList.add('hide'), 2000);
+setTimeout(() => { document.getElementById('splash').style.display = 'none'; animateHome(); }, 2500);
+
+// ─── NAVIGATION ───
+function switchTab(i) {
+  if (i === currentTab) return;
+  document.querySelectorAll('.nav-item').forEach((n, idx) => n.classList.toggle('active', idx === i));
+  const prev = document.getElementById(pages[currentTab]);
+  const next = document.getElementById(pages[i]);
+  prev.classList.remove('active'); prev.classList.add('exit-left');
+  next.classList.add('active');
+  setTimeout(() => prev.classList.remove('exit-left'), 350);
+  currentTab = i;
+  setTimeout(() => triggerAnimations(next), 80);
+  if (i === 1) setTimeout(animateLearnRing, 300);
+  if (i === 2) { animateTruck(); animateBins(); }
+}
+
+function triggerAnimations(c) {
+  c.querySelectorAll('.ani').forEach((el, i) => {
+    el.classList.remove('show');
+    setTimeout(() => el.classList.add('show'), i * 50);
+  });
+}
+
+// ─── HOME ───
+function animateHome() {
+  triggerAnimations(document.getElementById('pageHome'));
+  const ring = document.getElementById('scoreRing');
+  // circumference = 2*PI*52 ≈ 326.7
+  setTimeout(() => ring.style.strokeDashoffset = 326.7 - (326.7 * 8.4 / 10), 300);
+  animateCounter(document.getElementById('scoreNum'), 8.4, 1400, true);
+  document.querySelectorAll('#pageHome .stat-num[data-count]').forEach(el =>
+    animateCounter(el, parseInt(el.dataset.count), 1100));
+  createParticles();
+  const d = new Date();
+  document.getElementById('todayDate').textContent = d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  document.getElementById('statusTime').textContent = d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false});
+}
+
+function animateCounter(el, target, dur, isFloat = false) {
+  const start = performance.now();
+  (function tick(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease).toLocaleString('en-IN');
+    if (t < 1) requestAnimationFrame(tick);
+  })(performance.now());
+}
+
+function createParticles() {
+  const box = document.getElementById('particles');
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*6}s;animation-duration:${4+Math.random()*4}s`;
+    box.appendChild(p);
+  }
+}
+
+// ─── LEARN ───
+const lessons = [
+  { icon:'sprout', title:'What is Composting?', text:'Composting is nature\'s way of recycling. It transforms organic waste — kitchen scraps, garden trimmings — into nutrient-rich soil amendment called compost.' },
+  { icon:'carrot', title:'What Can You Compost?', text:'Green materials (nitrogen-rich): fruit/vegetable scraps, coffee grounds, grass. Brown materials (carbon-rich): dry leaves, cardboard, newspaper, twigs.' },
+  { icon:'box', title:'Setting Up Your Bin', text:'Layer browns at the bottom (4 inches), add greens, then more browns. Keep the ratio 3:1 (brown:green). Add water to keep it moist like a wrung sponge.' },
+  { icon:'check-circle', title:'Ready to Harvest!', text:'In 8-12 weeks, your compost will be dark, crumbly, and smell like earth. Use it in your garden or share with neighbours. You\'re reducing landfill waste!' },
+];
+let currentSlide = 0;
+
+function nextSlide() {
+  if (currentSlide < lessons.length - 1) { currentSlide++; updateSlide(); }
+  else { closeOverlay('lesson'); showSuccess('Lesson Complete!', 'You earned 50 Green Points'); }
+}
+function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+function updateSlide() {
+  const l = lessons[currentSlide];
+  const iconEl = document.getElementById('lsLucideIcon');
+  iconEl.setAttribute('data-lucide', l.icon);
+  lucide.createIcons({ nodes: [iconEl] });
+  document.getElementById('lsTitle').textContent = l.title;
+  document.getElementById('lsText').textContent = l.text;
+  document.querySelectorAll('.lesson-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+  const slide = document.getElementById('lessonSlide');
+  slide.style.opacity = '0'; slide.style.transform = 'translateX(16px)';
+  setTimeout(() => { slide.style.opacity = '1'; slide.style.transform = 'translateX(0)'; }, 50);
+}
+
+// ─── QUIZ ───
+const quizzes = [
+  { q:'Which bin should you use for banana peels?', opts:['A|Green (Wet Waste)','B|Blue (Dry Waste)','C|Red (Hazardous)'], correct:0 },
+  { q:'What is the ideal brown-to-green ratio for composting?', opts:['A|1:1','B|3:1','C|5:1'], correct:1 },
+  { q:'Which of these is hazardous household waste?', opts:['A|Newspaper','B|Used battery','C|Vegetable peel'], correct:1 },
+];
+let quizIdx = 0;
+
+function loadQuiz() { quizIdx = 0; renderQuiz(); }
+function renderQuiz() {
+  const qz = quizzes[quizIdx];
+  document.getElementById('quizNum').textContent = quizIdx + 1;
+  document.getElementById('quizQ').textContent = qz.q;
+  document.getElementById('quizNext').style.display = 'none';
+  document.getElementById('quizOptions').innerHTML = qz.opts.map((o, i) => {
+    const [letter, text] = o.split('|');
+    return `<div class="quiz-option" onclick="checkAnswer(${i},${qz.correct})"><div class="opt-letter">${letter}</div>${text}</div>`;
+  }).join('');
+}
+function checkAnswer(picked, correct) {
+  document.querySelectorAll('.quiz-option').forEach((o, i) => {
+    o.style.pointerEvents = 'none';
+    if (i === correct) o.classList.add('correct');
+    else if (i === picked) o.classList.add('wrong');
+  });
+  document.getElementById('quizNext').style.display = 'block';
+}
+function nextQuiz() {
+  if (++quizIdx < quizzes.length) renderQuiz();
+  else { closeOverlay('quiz'); showSuccess('Quiz Complete!', 'You scored 3/3 — Perfect!'); }
+}
+
+// ─── OVERLAYS ───
+function showOverlay(name) {
+  const el = document.getElementById('overlay' + name.charAt(0).toUpperCase() + name.slice(1));
+  if (!el) return;
+  el.classList.add('open');
+  setTimeout(() => triggerAnimations(el), 150);
+  if (name === 'quiz') loadQuiz();
+  if (name === 'lesson') { currentSlide = 0; updateSlide(); }
+  if (name === 'rewards') setTimeout(() => {
+    el.querySelectorAll('[data-count]').forEach(e => animateCounter(e, parseInt(e.dataset.count), 1000));
+    const tf = el.querySelector('.tier-fill');
+    if (tf) setTimeout(() => tf.style.width = tf.dataset.width + '%', 300);
+  }, 350);
+  lucide.createIcons({ nodes: [el] });
+}
+function closeOverlay(name) {
+  document.getElementById('overlay' + name.charAt(0).toUpperCase() + name.slice(1))?.classList.remove('open');
+}
+
+// ─── LEARN RING ───
+function animateLearnRing() {
+  // circumference = 2*PI*38 ≈ 238.8
+  document.getElementById('learnRing').style.strokeDashoffset = 238.8 - (238.8 * 0.78);
+}
+
+// ─── TRUCK ───
+const truckRoute = [[30,95],[92,95],[92,30],[192,30],[192,95],[282,95],[282,160],[192,160],[92,160]];
+let truckPos = 0, truckTimer = null;
+function animateTruck() {
+  clearInterval(truckTimer);
+  truckPos = 0;
+  truckTimer = setInterval(() => {
+    truckPos = (truckPos + 1) % truckRoute.length;
+    const [x, y] = truckRoute[truckPos];
+    document.getElementById('truckDot').setAttribute('cx', x);
+    document.getElementById('truckDot').setAttribute('cy', y);
+    document.getElementById('truckPulse').setAttribute('cx', x);
+    document.getElementById('truckPulse').setAttribute('cy', y);
+  }, 1200);
+}
+
+function animateBins() {
+  document.querySelectorAll('.bin-level-fill').forEach(el => {
+    setTimeout(() => el.style.height = el.dataset.fill + '%', 400);
+  });
+}
+
+// ─── REPORT ───
+function capturePhoto() {
+  const area = document.getElementById('cameraArea');
+  if (area.classList.contains('captured')) return;
+  const flash = document.getElementById('camFlash');
+  flash.classList.add('flash');
+  setTimeout(() => flash.classList.remove('flash'), 200);
+  setTimeout(() => area.classList.add('captured'), 200);
+}
+function submitReport() { showSuccess('Report Submitted!', 'Report #1247 logged · Tracking ID: GRG-2026-1247'); }
+
+// ─── SUCCESS + CONFETTI ───
+function showSuccess(title, text) {
+  document.getElementById('successTitle').textContent = title;
+  document.getElementById('successText').textContent = text;
+  document.getElementById('successModal').classList.add('show');
+  spawnConfetti();
+  setTimeout(() => document.getElementById('successModal').classList.remove('show'), 2800);
+}
+function spawnConfetti() {
+  const box = document.getElementById('confettiBox');
+  box.innerHTML = '';
+  const colors = ['#FFD166','#E76F51','#52B788','#457B9D','#7B68EE','#FFB4A2'];
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = `left:${Math.random()*100}%;background:${colors[i%colors.length]};animation-delay:${Math.random()*.5}s;border-radius:${Math.random()>.5?'50%':'2px'};width:${6+Math.random()*7}px;height:${6+Math.random()*7}px`;
+    box.appendChild(p);
+  }
+}
+
+// ─── SHOP ───
+function addToCart(id) {
+  const b = document.getElementById(id);
+  b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 1000);
+}
+
+// ─── FACILITIES FILTER ───
+function filterFacility(btn) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  // ponytail: visual-only filter for demo
+}
+
+// ─── COUNTDOWN ───
+let cdMinutes = 135;
+function updateCountdown() {
+  const el = document.getElementById('countdown');
+  if (el) el.textContent = Math.floor(cdMinutes / 60) + ':' + String(cdMinutes % 60).padStart(2, '0');
+  cdMinutes = cdMinutes > 0 ? cdMinutes - 1 : 135;
+}
+setInterval(updateCountdown, 60000);
+updateCountdown();
+
+// ─── RIPPLE ───
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.btn,.qa-btn,.nav-item');
+  if (!btn) return;
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const rect = btn.getBoundingClientRect();
+  r.style.cssText = `left:${e.clientX-rect.left}px;top:${e.clientY-rect.top}px;width:${Math.max(rect.width,rect.height)}px;height:${Math.max(rect.width,rect.height)}px`;
+  btn.appendChild(r);
+  setTimeout(() => r.remove(), 500);
+});
+
+// ─── PROFILE COUNTERS ───
+// ponytail: re-use switchTab hook for profile tab counters
+const _origSwitch = switchTab;
+window.switchTab = function(i) {
+  _origSwitch(i);
+  if (i === 4) setTimeout(() => {
+    document.querySelectorAll('#pageProfile .p-stat-num[data-count]').forEach(el =>
+      animateCounter(el, parseInt(el.dataset.count), 1000));
+  }, 300);
+};
+</script>
+</body>
+</html>
