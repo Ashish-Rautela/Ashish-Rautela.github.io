@@ -5,6 +5,18 @@ $(document).ready(function () {
         $('.navbar').toggleClass('nav-toggle');
     });
 
+    $('.navbar ul li a').click(function () {
+        $('#menu').removeClass('fa-times');
+        $('.navbar').removeClass('nav-toggle');
+    });
+
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('header').length) {
+            $('#menu').removeClass('fa-times');
+            $('.navbar').removeClass('nav-toggle');
+        }
+    });
+
     $(window).on('scroll load', function () {
         $('#menu').removeClass('fa-times');
         $('.navbar').removeClass('nav-toggle');
@@ -84,52 +96,43 @@ var typed = new Typed(".typing-text", {
 
 // Fallback Data Arrays
 const defaultSkills = [
-    { name: "ReactJS", icon: "https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/000000/external-react-a-javascript-library-for-building-user-interfaces-logo-color-tal-revivo.png" },
-    { name: "ExpressJS", icon: "https://img.icons8.com/fluency/48/000000/node-js.png" },
-    { name: "NodeJS", icon: "https://img.icons8.com/color/48/000000/nodejs.png" },
-    { name: "Redux", icon: "https://img.icons8.com/color/48/000000/redux.png" },
-    { name: "MaterialUI", icon: "https://img.icons8.com/color/48/000000/material-ui.png" },
-    { name: "HTML5", icon: "https://img.icons8.com/color/48/000000/html-5--v1.png" },
-    { name: "CSS3", icon: "https://img.icons8.com/color/48/000000/css3.png" },
+    { name: "TypeScript", icon: "https://img.icons8.com/color/48/000000/typescript.png" },
     { name: "JavaScript", icon: "https://img.icons8.com/color/48/000000/javascript--v1.png" },
-    { name: "Python", icon: "https://img.icons8.com/color/48/000000/python--v1.png" },
-    { name: "C++", icon: "https://img.icons8.com/color/48/000000/c-plus-plus-logo.png" },
+    { name: "NodeJS", icon: "https://img.icons8.com/color/48/000000/nodejs.png" },
+    { name: "ExpressJS", icon: "https://img.icons8.com/fluency/48/000000/node-js.png" },
+    { name: "ReactJS", icon: "https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/000000/external-react-a-javascript-library-for-building-user-interfaces-logo-color-tal-revivo.png" },
+    { name: "AWS", icon: "https://img.icons8.com/color/48/000000/amazon-web-services.png" },
+    { name: "PostgreSQL", icon: "https://img.icons8.com/color/48/000000/postgreesql.png" },
+    { name: "DynamoDB", icon: "./assets/images/skills/dynamodb.svg" },
     { name: "MongoDB", icon: "https://img.icons8.com/color/48/000000/mongodb.png" },
-    { name: "jQuery", icon: "https://img.icons8.com/ios-filled/48/1169ae/jquery.png" },
+    { name: "Redis", icon: "https://img.icons8.com/color/48/000000/redis.png" },
+    { name: "TailwindCSS", icon: "https://img.icons8.com/color/48/000000/tailwindcss.png" },
+    { name: "C++", icon: "https://img.icons8.com/color/48/000000/c-plus-plus-logo.png" },
+    { name: "C", icon: "https://img.icons8.com/color/48/000000/c-programming.png" },
+    { name: "GitHub Actions", icon: "https://img.icons8.com/color/48/000000/github--v1.png" },
     { name: "Git VCS", icon: "https://img.icons8.com/color/48/000000/git.png" },
-    { name: "GitHub", icon: "https://img.icons8.com/glyph-neue/48/000000/github.png" },
-    { name: "WordPress", icon: "https://img.icons8.com/color/48/000000/wordpress.png" }
+    { name: "SQL", icon: "https://img.icons8.com/color/48/000000/sql.png" }
 ];
 
 const defaultProjects = [
     {
-        name: "EventFlow | Scalable Event Streaming & Processing System",
-        desc: "An event-driven backend handling 10K+ events/min with atomic offset management (Redis INCR), fault-tolerant consumer pipeline with retry logic and DLQ, and real-time observability metrics.",
-        image: "eventflow.png",
+        name: "Evidex | Legal Contract Intelligence & Evidence Search",
+        desc: "An AI-powered legal contract search engine enabling natural-language and legal-term queries across multi-hundred-page agreements with traceable evidence. Built with AWS Bedrock, Cohere Embed v3, PostgreSQL pgvector (HNSW) hybrid search, Reciprocal Rank Fusion (RRF), Cohere Rerank v3.5, and AWS Textract.",
+        image: "evidex.png",
         category: "mern",
         links: {
-            view: "https://github.com/Ashish-Rautela/EventFlow",
-            code: "https://github.com/Ashish-Rautela/EventFlow"
+            view: "https://evidex.ashishrautela.in",
+            code: "https://github.com/Ashish-Rautela/Evidex"
         }
     },
     {
-        name: "Finance Data Processing & Analytics Backend",
-        desc: "High-performance finance backend with JWT authentication, RBAC, REST APIs for record filtering, and MongoDB aggregation pipelines for dashboard analytics deployed on AWS EC2.",
-        image: "finance.png",
+        name: "SynkDocs | Serverless Real-Time Collaboration Backend",
+        desc: "A high-performance, event-driven serverless backend microservices architecture for real-time collaborative document editing. Built with Node.js, AWS SAM, Lambda, API Gateway (REST & WebSockets), DynamoDB, EventBridge, and SNS featuring Clean Architecture, real-time operational transform sync, and CI/CD pipelines.",
+        image: "synkdocs.png",
         category: "mern",
         links: {
-            view: "https://github.com/Ashish-Rautela/finance-dashboard-backend",
-            code: "https://github.com/Ashish-Rautela/finance-dashboard-backend"
-        }
-    },
-    {
-        name: "Decentralized Online Voting System",
-        desc: "A secure online voting platform built with blockchain technology and smart contracts, ensuring data immutability, transparency, and role-based access control.",
-        image: "voting.png",
-        category: "mern",
-        links: {
-            view: "https://github.com/Ashish-Rautela/Decentralized_Online_Voting_System",
-            code: "https://github.com/Ashish-Rautela/Decentralized_Online_Voting_System"
+            view: "https://synkdocs.ashishrautela.in",
+            code: "https://github.com/Ashish-Rautela/SynkDocs-backend"
         }
     }
 ];
@@ -159,7 +162,7 @@ function showProjects(projects) {
         let imgSrc = project.image.includes('.') ? `./assets/images/projects/${project.image}` : `./assets/images/projects/${project.image}.png`;
         projectHTML += `
         <div class="box tilt">
-          <img draggable="false" src="${imgSrc}" onerror="this.onerror=null; this.src='./assets/images/projects/${baseName}.png';" alt="project" />
+          <img draggable="false" src="${imgSrc}" onerror="this.onerror=null; this.src='./assets/images/projects/${baseName}.png';" alt="${project.name}" />
           <div class="content">
             <div class="tag">
               <h3>${project.name}</h3>
@@ -176,9 +179,11 @@ function showProjects(projects) {
     });
     projectsContainer.innerHTML = projectHTML;
 
-    if (typeof VanillaTilt !== 'undefined') {
+    if (typeof VanillaTilt !== 'undefined' && window.innerWidth > 768) {
         VanillaTilt.init(document.querySelectorAll(".tilt"), {
-            max: 15,
+            max: 12,
+            speed: 400,
+            glare: false,
         });
     }
 }
@@ -217,10 +222,4 @@ document.onkeydown = function (e) {
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
     if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
 };
-
-// Education box click
-$(document).ready(function () {
-    $('.education .box').on('click', function () {
-        window.open('./college/index.html', '_blank');
-    });
-});
+
